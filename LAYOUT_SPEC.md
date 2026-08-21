@@ -1,6 +1,6 @@
-# Wurstfinger Custom Layout Specification & Verification Checklist
+# Wurstfinger Duo Layout Specification & Verification Checklist
 
-This document specifies the custom keyboard layout implemented for **Wurstfinger**, transitioning the keyboard from a 3×3 letter grid with 8-way directional swipes to a **4-row × 4-column letter grid (plus trailing utility column)** restricted to **Vertical-Only Swipes (Tap, Swipe Up, Swipe Down)**, along with custom utility row assignments and autocomplete functionality.
+This document specifies the custom keyboard layout implemented for **Wurstfinger Duo**, a **4-row × 4-column letter grid (plus trailing utility column)** restricted to **Vertical-Only Swipes (Tap, Swipe Up, Swipe Down)** for letter keys, with a dedicated 4×5 number/symbol layer.
 
 ---
 
@@ -38,18 +38,18 @@ This document specifies the custom keyboard layout implemented for **Wurstfinger
 
 | Slot | Tap (Center) | Swipe Up (▲) | Swipe Down (▼) |
 | :--- | :---: | :---: | :---: |
-| **r0c0** | `L` | `W` | `V` |
-| **r0c1** | `D` | `Q` | `B` |
-| **r0c2** | `H` | `:` | `U` |
-| **r0c3** | `C` | `Y` | `P` |
-| **r1c0** | `N` | `!` | `F` |
-| **r1c1** | `T` | `/` | `K` |
-| **r1c2** | `I` | `-` | `X` |
-| **r1c3** | `O` | `?` | `G` |
-| **r2c0** | `S` | Shift Toggle (`⇧`) | `Z` |
-| **r2c1** | `R` | `J` | `M` |
-| **r2c2** | `A` | `'` | `,` |
-| **r2c3** | `E` | `"` | `.` |
+| **r0c0** | `l` | `v` | `w` |
+| **r0c1** | `d` | `q` | `b` |
+| **r0c2** | `i` | `-` | `x` |
+| **r0c3** | `o` | `?` | `g` |
+| **r1c0** | `n` | `!` | `f` |
+| **r1c1** | `t` | `/` | `k` |
+| **r1c2** | `h` | `:` | `u` |
+| **r1c3** | `c` | `y` | `p` |
+| **r2c0** | `s` | Shift Toggle (`⇧`) | `z` |
+| **r2c1** | `r` | `j` | `m` |
+| **r2c2** | `a` | `'` | `,` |
+| **r2c3** | `e` | `"` | `.` |
 
 ---
 
@@ -79,6 +79,32 @@ This document specifies the custom keyboard layout implemented for **Wurstfinger
 
 ---
 
+### 3.3 Numeric Layer (4 Rows × 5 Columns)
+
+| Slot | Tap | Swipe Up (▲) | Swipe Down (▼) |
+| :--- | :---: | :---: | :---: |
+| **n0c0** | `~` | `*` | `/` |
+| **n0c1** | `1` | `<` | `!` |
+| **n0c2** | `2` | `>` | `@` |
+| **n0c3** | `3` | `|` | `#` |
+| **n1c0** | `=` | `+` | `-` |
+| **n1c1** | `4` | `(` | `$` |
+| **n1c2** | `5` | `)` | `%` |
+| **n1c3** | `6` | `\` | `^` |
+| **n2c0** | `.` | `⇧` (Shift) | `⇥` (Tab) |
+| **n2c1** | `7` | `{` | `&` |
+| **n2c2** | `8` | `}` | `*` |
+| **n2c3** | `9` | `` ` `` | `(` |
+| **n3c0** | `ABC` (→ letters) | Emoji | Globe (next input) |
+| **n3c1** | `0` | `_` | `)` |
+| **n3c2–3** | Spacebar (spans 2 cols) | — | — |
+| **n3c4** | Return (↵) | — | Hide Keyboard |
+| **Utility col 4** | Clipboard / Autocomplete / Delete / Return | _same gestures as main layer_ | |
+
+For non-Latin scripts, the digit glyphs (0–9) are replaced with the language's digit set; all symbols remain fixed.
+
+---
+
 ## 4. Verification Checklist for Auditor Agent
 
 A separate auditor agent should independently verify the following items against the codebase:
@@ -88,31 +114,29 @@ A separate auditor agent should independently verify the following items against
 3. **Swipe Mode Enforcements:** Verify `GridKeyboardFactory.swift` instantiates letter keys with `swipeMode: .twoWayVertical`.
 4. **Action Pipeline & Autocomplete:** Verify `KeyAction.swift` includes `.autocomplete`, `TextInputMiddleware.swift` handles it by inserting `"auto"`, and `KeyCategory.swift` classifies it under `.utility`.
 5. **Language Definition Overrides:** Verify `LanguageDefinitions.swift` (English and others) correctly populates `centerCharacters` as a 3×4 matrix and maps directional overrides strictly to `.swipeUp` and `.swipeDown` for `r0c0` through `r2c3`.
-6. **Numeric Layer Integration:** Verify `NumericLayouts.swift` uses `"ABC"` as the back-to-alpha label and includes `UtilitySlot.clipboard` in its utility key set.
-|7. **Shift Behavior:** Shift is on `r2c0.swipeUp`. A full mode toggle (main → shifted → capsLock) with auto-transition back to main after typing a letter. Caps Lock's swipeUp cycles back to main (no dead-end mode).
+6. **Numeric Layer Integration:** Verify `NumericLayouts.swift` builds a 4×5 grid with `n0c0`–`n3c3` slots, digit placeholders use the language digit set, and the back-to-alpha key at `n3c0` carries the script-appropriate label.
+7. **Shift Behavior:** Shift is on `r2c0.swipeUp`. A full mode toggle (main → shifted → capsLock) with auto-transition back to main after typing a letter. Caps Lock's swipeUp cycles back to main (no dead-end mode).
 
 ---
 
 ## 5. Implementation Reference
 
-### 5.1 Files Modified
+### 5.1 Key Files
 
 | File | Purpose |
 |------|---------|
-| `Definition/Layout/GridSlot.swift` | Added coordinate-based slot IDs (`r0c0`–`r3c3`), kept legacy names for numeric compatibility |
-| `Definition/Layout/UtilitySlot.swift` | Added `clipboard` and `autocomplete` identifiers |
-| `Definition/Layout/StandardArrangements.swift` | Rewrote portrait/landscape/numeric arrangements for 5-column, 4-row grid |
-| `Settings/KeyboardConstants.swift` | Updated `totalRows` from 4 → 5 |
-| `Definition/Language/GridKeyboardFactory.swift` | Changed letter key `swipeMode` to `.twoWayVertical`, updated precondition check for 3×4 matrix |
-| `Definition/Language/CommonKeys.swift` | Added `clipboard`, `autocomplete`, `r3c0` key configs; rewrote `defaultSlotBindings` for new slots with vertical-only bindings; updated `return` with `.dismissKeyboard` on swipeDown |
-| `Definition/Model/KeyAction.swift` | Added `.autocomplete` case |
-| `Definition/Model/KeyCategory.swift` | Added `.autocomplete` → `.utility` mapping |
-| `Runtime/Pipeline/TextInputMiddleware.swift` | Added `.autocomplete` → `"auto"` insertion |
-| `Runtime/Pipeline/AutoCapitalizationMiddleware.swift` | Added `.autocomplete` to `affectsCapitalization` |
-| `Definition/Language/KeyboardMode.swift` | Updated `replacingShiftUpBinding` to target `r2c0` instead of `midRight` |
-| `Definition/Language/LanguageDefinitions.swift` | All 15 languages: 3×3 → 3×4 center matrices, overrides converted to vertical-only new slots, return/circular overrides stripped |
-| `Definition/Language/LanguageDefinitions+MessagEase.swift` | 11 additional layouts (Ukrainian, Greek, Portuguese, Arabic, Persian, Urdu, Thai, Hindi, Hiragana, Katakana, Korean): same transformation |
-| `Definition/Language/NumericLayouts.swift` | Changed back-to-alpha label to `"ABC"`, replaced globe with clipboard in utility keys |
+| `Definition/Layout/GridSlot.swift` | Coordinate-based slot IDs (`r0c0`–`r3c3`), legacy names for numeric compatibility |
+| `Definition/Layout/UtilitySlot.swift` | `clipboard` and `autocomplete` identifiers |
+| `Definition/Layout/StandardArrangements.swift` | Portrait/landscape/numeric arrangements for 5-column, 4-row grid |
+| `Settings/KeyboardConstants.swift` | `totalRows` = 5 |
+| `Definition/Language/GridKeyboardFactory.swift` | Letter key `swipeMode`: `.twoWayVertical`, precondition for 3×4 matrix |
+| `Definition/Language/CommonKeys.swift` | `clipboard`, `autocomplete`, `r3c0` key configs; `defaultSlotBindings` with vertical-only bindings; `return` with `.dismissKeyboard` on swipeDown |
+| `Definition/Language/NumericLayouts.swift` | 4×5 numeric layer: symbol column + digit columns + shared utility column |
+| `Definition/Model/KeyAction.swift` | `.autocomplete` case |
+| `Definition/Model/KeyCategory.swift` | `.autocomplete` → `.utility` mapping |
+| `Runtime/Pipeline/TextInputMiddleware.swift` | `.autocomplete` → `"auto"` insertion |
+| `Runtime/Pipeline/AutoCapitalizationMiddleware.swift` | `.autocomplete` in `affectsCapitalization` |
+| `Definition/Language/LanguageDefinitions.swift` | English main layer: `r0c2` ↔ `r1c2` and `r0c3` ↔ `r1c3` swapped per Wurstfinger Duo spec; all overrides converted to vertical-only new slots |
 
 ### 5.2 Files Unchanged
 
@@ -130,21 +154,18 @@ A separate auditor agent should independently verify the following items against
 
 ### 6.1 Center Character Strategy
 
-Every language previously used a 3×3 center matrix. The 4th column is **empty** (`""`) for all non-English languages. This means the slots `r0c3`, `r1c3`, `r2c3` have no tap character for those languages — they function as **swipe-only keys** producing the extra letters that were displaced from horizontal/diagonal swipes.
+Every language uses a 3×4 center matrix. The 4th column is **empty** (`""`) for most non-English languages. The slots `r0c3`, `r1c3`, `r2c3` function as **swipe-only keys** producing extra letters displaced from horizontal/diagonal swipes.
 
-### 6.2 Extra Letter Assignment
+### 6.2 English Main-Layer Layout
 
-The conversion script applied this priority:
-1. **Vertical swipes (.swipeUp, .swipeDown)** stay on their original slot's new coordinate equivalent.
-2. **Horizontal/diagonal swipes (.swipeLeft, .swipeRight, .swipeUpLeft, etc.)** are dropped. The first letter from these discarded directions is promoted to the slot in column 3 of the same row (`.swipeUp`), so it remains typeable.
+The English layout uses all 12 grid slots with the following 4-swap arrangement (relative to the earlier iteration):
 
-Example — Croatian: `v` (from `topLeft.swipeDownRight`) → `r0c3.swipeUp`, `k` (from `midLeft.swipeRight`) → `r1c3.swipeUp`, `y` (from `bottomLeft.swipeUpRight`) → `r2c3.swipeUp`.
+- **r0c2** = `i` (was `h`), swipeUp `-`, swipeDown `x`
+- **r0c3** = `o` (was `c`), swipeUp `?`, swipeDown `g`
+- **r1c2** = `h` (was `i`), swipeUp `:`, swipeDown `u`
+- **r1c3** = `c` (was `o`), swipeUp `y`, swipeDown `p`
 
-### 6.3 Removed Features
-
-- **Return overrides** referencing old slot names (Hebrew final forms, Arabic script returns) are stripped. These can be re-added per language in a follow-up if needed, using the new slot names.
-- **Circular overrides** (numeric layer superscripts like `∫`, `∑`) kept their existing logic — they still use the legacy slot names via `NumericLayouts`.
-- **Compose rules** (accent composition via compose engine) are kept and unchanged.
+This swap places higher-frequency letters on row 0 for faster access.
 
 ---
 
@@ -159,13 +180,14 @@ Example — Croatian: `v` (from `topLeft.swipeDownRight`) → `r0c3.swipeUp`, `k
 
 1. **Grid rendering:** Open the keyboard in-simulator. Verify 5 columns, 4 letter rows + space/return row render without overlaps or gaps.
 2. **Vertical swipe restriction:** Tap a letter key → center character. Swipe up → upper character. Swipe down → lower character. Swipe left/right → should do nothing (no binding).
-3. **Shift behaviour:** Swipe up on `r2c0` (S key) → enters shifted mode. Tap any letter → types uppercase, then auto-transitions back to lowercase. Tap shift again → caps lock. Swipe up on shift in caps lock → returns to lowercase.
-4. **Clipboard utility:** Tap clipboard key (utility col row 0) → cut. Swipe up → copy. Swipe down → paste.
-5. **Autocomplete:** Tap autocomplete key (utility col row 1) → types `"auto"`.
+3. **Shift behaviour:** Swipe up on `r2c0` (S key) → shifted mode. Tap any letter → uppercase, auto-transition back to lowercase. Tap shift again → caps lock. Swipe up on shift in caps lock → lowercase.
+4. **Clipboard utility:** Tap clipboard → cut. Swipe up → copy. Swipe down → paste.
+5. **Autocomplete:** Tap autocomplete → types `"auto"`.
 6. **Return key:** Tap → newline. Swipe down → keyboard dismisses.
-7. **r3c0 (bottom-left):** Tap → numeric layer. Swipe up → emoji mode (inert). Swipe down → next input method.
+7. **r3c0 (bottom-left):** Tap → numeric layer. Swipe up → emoji (inert). Swipe down → next input method.
 8. **Spacebar:** Tap → space. Drag → cursor moves. Long press → zero digit.
-9. **Numeric layer:** Verify phone-style digit layout with `"ABC"` toggle, clipboard utility in col 4 row 0, spacebar spanning 2 cols.
+9. **Numeric layer:** Verify 4×5 grid; column 0 = symbols (~ = + .), columns 1–3 = digits, column 4 = utility. Back-to-alpha (`ABC`) on n3c0, zero on n3c1, space spans n3c2–3.
 10. **Delete key:** Tap → delete one character. Swipe left/right → continuous delete.
-11. **Landscape orientation:** Rotate device → same 4×5 grid layout, utility column on leading edge.
-12. **Punctuation:** r2c2 swipeUp → `'`, swipeDown → `,`. r2c3 swipeUp → `"`, swipeDown → `.`. r1c0 swipeUp → `!`. r1c3 swipeUp → `?`.
+11. **Landscape orientation:** Rotate device → same grid, utility column on leading edge.
+12. **Punctuation:** r2c2 swipeUp → `'`, swipeDown → `,`. r2c3 swipeUp → `"`, swipeDown → `.`. r0c2 swipeUp → `-`. r0c3 swipeUp → `?`.
+13. **Numeric layer symbols:** Verify ~ * /, = + -, . ⇧ ⇥, `_ )` on their respective slots.

@@ -37,15 +37,16 @@ enum StandardArrangements {
 
     // MARK: - Numeric Portrait
 
-    /// Numeric mode portrait: 4 rows × 5 columns with blank left column,
-    /// digits in columns 1–3, utility column on the right.
+    /// Numeric mode portrait: 4 rows × 5 columns. Column 0 = symbols,
+    /// columns 1–3 = digits, column 4 = utility (clipboard, autocomplete,
+    /// delete, return).
     private static let numericPortrait = GridArrangement(
         columns: 5,
         rows: [
-            [.init(keyId: "n00"), .init(keyId: "n01"), .init(keyId: "n02"), .init(keyId: "n03"), .init(keyId: UtilitySlot.clipboard)],
-            [.init(keyId: "n10"), .init(keyId: "n11"), .init(keyId: "n12"), .init(keyId: "n13"), .init(keyId: UtilitySlot.symbols)],
-            [.init(keyId: "n20"), .init(keyId: "n21"), .init(keyId: "n22"), .init(keyId: "n23"), .init(keyId: UtilitySlot.delete)],
-            [.init(keyId: GridSlot.zero), .init(keyId: UtilitySlot.space, widthMultiplier: 3), .init(keyId: UtilitySlot.return)],
+            [.init(keyId: "n0c0"), .init(keyId: "n0c1"), .init(keyId: "n0c2"), .init(keyId: "n0c3"), .init(keyId: UtilitySlot.clipboard)],
+            [.init(keyId: "n1c0"), .init(keyId: "n1c1"), .init(keyId: "n1c2"), .init(keyId: "n1c3"), .init(keyId: UtilitySlot.autocomplete)],
+            [.init(keyId: "n2c0"), .init(keyId: "n2c1"), .init(keyId: "n2c2"), .init(keyId: "n2c3"), .init(keyId: UtilitySlot.delete)],
+            [.init(keyId: "n3c0"), .init(keyId: "n3c1"), .init(keyId: UtilitySlot.space, widthMultiplier: 2), .init(keyId: UtilitySlot.return)],
         ]
     )
 
@@ -54,10 +55,10 @@ enum StandardArrangements {
     private static let numericLandscape = GridArrangement(
         columns: 5,
         rows: [
-            [.init(keyId: UtilitySlot.clipboard), .init(keyId: "n00"), .init(keyId: "n01"), .init(keyId: "n02"), .init(keyId: "n03")],
-            [.init(keyId: UtilitySlot.symbols), .init(keyId: "n10"), .init(keyId: "n11"), .init(keyId: "n12"), .init(keyId: "n13")],
-            [.init(keyId: UtilitySlot.delete), .init(keyId: "n20"), .init(keyId: "n21"), .init(keyId: "n22"), .init(keyId: "n23")],
-            [.init(keyId: UtilitySlot.return), .init(keyId: GridSlot.zero), .init(keyId: UtilitySlot.space, widthMultiplier: 3)],
+            [.init(keyId: UtilitySlot.clipboard), .init(keyId: "n0c0"), .init(keyId: "n0c1"), .init(keyId: "n0c2"), .init(keyId: "n0c3")],
+            [.init(keyId: UtilitySlot.autocomplete), .init(keyId: "n1c0"), .init(keyId: "n1c1"), .init(keyId: "n1c2"), .init(keyId: "n1c3")],
+            [.init(keyId: UtilitySlot.delete), .init(keyId: "n2c0"), .init(keyId: "n2c1"), .init(keyId: "n2c2"), .init(keyId: "n2c3")],
+            [.init(keyId: UtilitySlot.return), .init(keyId: "n3c0"), .init(keyId: "n3c1"), .init(keyId: UtilitySlot.space, widthMultiplier: 2)],
         ]
     )
 
@@ -77,7 +78,7 @@ enum StandardArrangements {
 
     /// Utility-left variant for the numeric keyboard.
     private static let numericLeadingUtilityKeys: Set<String> = [
-        UtilitySlot.clipboard, UtilitySlot.symbols, UtilitySlot.delete, UtilitySlot.return,
+        UtilitySlot.clipboard, UtilitySlot.autocomplete, UtilitySlot.delete, UtilitySlot.return,
     ]
 
     private static func numericUtilityLeft(_ arrangement: GridArrangement) -> GridArrangement {
