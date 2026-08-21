@@ -11,7 +11,7 @@ import Foundation
 /// between the main app and keyboard extension
 enum SharedDefaults {
     /// The app group identifier shared between the main app and keyboard extension
-    static let suiteName = "group.de.akator.wurstfinger.shared"
+    static let suiteName = "group.com.izumistudio.wurstfinger.shared"
 
     /// Launch argument that swaps `store` for a throwaway suite. UI tests pass
     /// it (see `UITestApp`) so a setting they flip — or fail to flip back after
@@ -26,7 +26,7 @@ enum SharedDefaults {
     /// Debug builds wipe it on every isolated launch (see `store`), so each UI
     /// test starts from factory defaults instead of inheriting whatever the
     /// previous run left behind.
-    static let isolatedSuiteName = "de.akator.wurstfinger.isolated"
+    static let isolatedSuiteName = "com.izumistudio.wurstfinger.isolated"
 
     /// The suite `store` binds to for a given process argument list.
     static func resolvedSuiteName(arguments: [String]) -> String {

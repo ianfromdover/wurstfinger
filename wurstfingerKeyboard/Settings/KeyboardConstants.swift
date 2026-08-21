@@ -26,8 +26,8 @@ enum KeyboardConstants {
         static let referenceAspectRatio: CGFloat = 1.5
 
         /// Total number of rows in the keyboard layout.
-        /// 3 rows for main keys + 1 row for space bar = 4 rows.
-        static let totalRows: Int = 4
+        /// 4 rows for main keys + 1 row for space bar = 5 rows.
+        static let totalRows: Int = 5
     }
 
     // MARK: - Font Sizes

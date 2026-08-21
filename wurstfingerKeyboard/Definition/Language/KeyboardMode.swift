@@ -81,8 +81,8 @@ struct KeyboardMode: Codable, Equatable {
         return removingBinding(keyId: keyId, gesture: gesture)
     }
 
-    /// Returns a copy where the shift-up binding on midRight is replaced.
-    /// Used to point shifted → capsLock and capsLock → capsLock (no-op).
+    /// Returns a copy where the shift-up binding on r2c0 (the shift key) is replaced.
+    /// Used to point shifted → capsLock and capsLock → main (cycle back).
     ///
     /// `accessibilityLabel` is passed rather than inherited because the two
     /// uses disagree about it: the shifted mode's binding still does
@@ -94,16 +94,16 @@ struct KeyboardMode: Codable, Equatable {
         action: KeyAction,
         accessibilityLabel: String?
     ) -> KeyboardMode {
-        guard var midRight = keys[GridSlot.midRight],
-              let existing = midRight.bindings[.swipeUp]
+        guard var shiftKey = keys[GridSlot.r2c0],
+              let existing = shiftKey.bindings[.swipeUp]
         else { return self }
-        midRight.bindings[.swipeUp] = KeyBinding(
+        shiftKey.bindings[.swipeUp] = KeyBinding(
             label: label, action: action,
             category: existing.category, returnAction: existing.returnAction,
             accessibilityLabel: accessibilityLabel
         )
         var updatedKeys = keys
-        updatedKeys[GridSlot.midRight] = midRight
+        updatedKeys[GridSlot.r2c0] = shiftKey
         return KeyboardMode(
             name: name, keys: updatedKeys, arrangements: arrangements,
             autoTransitions: autoTransitions

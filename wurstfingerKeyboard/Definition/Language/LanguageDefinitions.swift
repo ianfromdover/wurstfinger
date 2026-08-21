@@ -26,29 +26,34 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["a", "n", "i"],
-                ["h", "o", "r"],
-                ["t", "e", "s"],
+                ["a", "n", "i", ""],
+                ["h", "o", "r", ""],
+                ["t", "e", "s", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeUp: "š", .swipeDown: "đ", .swipeDownRight: "v"],
-                GridSlot.topCenter: [.swipeDown: "l"],
-                GridSlot.topRight: [.swipeDownLeft: "x"],
-                GridSlot.midLeft: [.swipeUp: "ć", .swipeDown: "č", .swipeRight: "k"],
-                GridSlot.center: [
-                    .swipeUpLeft: "q", .swipeUp: "u", .swipeUpRight: "p",
-                    .swipeRight: "b", .swipeDownRight: "j", .swipeDown: "d",
-                    .swipeDownLeft: "g", .swipeLeft: "c",
+                        directionalOverrides: [
+                GridSlot.r0c0: [
+                    .swipeUp: "š",
+                    .swipeDown: "đ",
                 ],
-                GridSlot.midRight: [.swipeLeft: "m"],
-                GridSlot.bottomLeft: [.swipeUp: "ž", .swipeUpRight: "y"],
-                GridSlot.bottomCenter: [.swipeUp: "w", .swipeRight: "z"],
-                GridSlot.bottomRight: [.swipeUpLeft: "f"],
+                GridSlot.r0c1: [.swipeDown: "l"],
+                GridSlot.r1c0: [
+                    .swipeUp: "ć",
+                    .swipeDown: "č",
+                ],
+                GridSlot.r1c1: [
+                    .swipeUp: "u",
+                    .swipeDown: "d",
+                ],
+                GridSlot.r2c0: [.swipeUp: "ž"],
+                GridSlot.r2c1: [.swipeUp: "w"],
+                GridSlot.r0c3: [.swipeUp: "v"],
+                GridSlot.r1c3: [.swipeUp: "b"],
+                GridSlot.r2c3: [.swipeUp: "f"],
             ]
         )
     }
 
-    // MARK: - English
+        // MARK: - English
 
     static let english = LanguageDescriptor(
         id: "en_US",
@@ -60,29 +65,24 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["a", "n", "i"],
-                ["h", "o", "r"],
-                ["t", "e", "s"],
+                ["l", "d", "h", "c"],
+                ["n", "t", "i", "o"],
+                ["s", "r", "a", "e"],
             ],
             directionalOverrides: [
-                GridSlot.topLeft: [.swipeDownRight: "v"],
-                GridSlot.topCenter: [.swipeDown: "l"],
-                GridSlot.topRight: [.swipeDownLeft: "x"],
-                GridSlot.midLeft: [.swipeRight: "k"],
-                GridSlot.center: [
-                    .swipeUpLeft: "q", .swipeUp: "u", .swipeUpRight: "p",
-                    .swipeRight: "b", .swipeDownRight: "j", .swipeDown: "d",
-                    .swipeDownLeft: "g", .swipeLeft: "c",
-                ],
-                GridSlot.midRight: [.swipeLeft: "m"],
-                GridSlot.bottomLeft: [.swipeUpRight: "y"],
-                GridSlot.bottomCenter: [.swipeUp: "w", .swipeRight: "z"],
-                GridSlot.bottomRight: [.swipeUpLeft: "f"],
+                GridSlot.r0c0: [.swipeUp: "v", .swipeDown: "w"],
+                GridSlot.r0c1: [.swipeUp: "q", .swipeDown: "b"],
+                GridSlot.r0c2: [.swipeDown: "u"],
+                GridSlot.r0c3: [.swipeUp: "y", .swipeDown: "p"],
+                GridSlot.r1c0: [.swipeDown: "f"],
+                GridSlot.r1c1: [.swipeDown: "k"],
+                GridSlot.r1c2: [.swipeDown: "x"],
+                GridSlot.r1c3: [.swipeDown: "g"],
+                GridSlot.r2c0: [.swipeDown: "z"],
+                GridSlot.r2c1: [.swipeUp: "j", .swipeDown: "m"],
             ]
         )
-    }
-
-    // MARK: - Estonian-Finnish
+    }// MARK: - Estonian-Finnish
 
     static let estonianFinnish = LanguageDescriptor(
         id: "et_EE",
@@ -94,24 +94,29 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["a", "n", "i"],
-                ["h", "o", "r"],
-                ["t", "e", "s"],
+                ["a", "n", "i", ""],
+                ["h", "o", "r", ""],
+                ["t", "e", "s", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeUp: "å", .swipeDown: "ä", .swipeDownRight: "v"],
-                GridSlot.topCenter: [.swipeDown: "l"],
-                GridSlot.topRight: [.swipeDownLeft: "x"],
-                GridSlot.midLeft: [.swipeUp: "ö", .swipeDown: "õ", .swipeRight: "k"],
-                GridSlot.center: [
-                    .swipeUpLeft: "q", .swipeUp: "u", .swipeUpRight: "p",
-                    .swipeRight: "b", .swipeDownRight: "j", .swipeDown: "d",
-                    .swipeDownLeft: "g", .swipeLeft: "c",
+                        directionalOverrides: [
+                GridSlot.r0c0: [
+                    .swipeUp: "å",
+                    .swipeDown: "ä",
                 ],
-                GridSlot.midRight: [.swipeLeft: "m"],
-                GridSlot.bottomLeft: [.swipeUp: "ü", .swipeUpRight: "y"],
-                GridSlot.bottomCenter: [.swipeUp: "w", .swipeRight: "z", .swipeLeft: "ž"],
-                GridSlot.bottomRight: [.swipeUpLeft: "f", .swipeLeft: "š"],
+                GridSlot.r0c1: [.swipeDown: "l"],
+                GridSlot.r1c0: [
+                    .swipeUp: "ö",
+                    .swipeDown: "õ",
+                ],
+                GridSlot.r1c1: [
+                    .swipeUp: "u",
+                    .swipeDown: "d",
+                ],
+                GridSlot.r2c0: [.swipeUp: "ü"],
+                GridSlot.r2c1: [.swipeUp: "w"],
+                GridSlot.r0c3: [.swipeUp: "v"],
+                GridSlot.r1c3: [.swipeUp: "b"],
+                GridSlot.r2c3: [.swipeUp: "f"],
             ]
         )
     }
@@ -128,24 +133,25 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["a", "n", "i"],
-                ["h", "o", "r"],
-                ["t", "e", "s"],
+                ["a", "n", "i", ""],
+                ["h", "o", "r", ""],
+                ["t", "e", "s", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeUp: "å", .swipeDown: "ä", .swipeDownRight: "v"],
-                GridSlot.topCenter: [.swipeDown: "l"],
-                GridSlot.topRight: [.swipeDownLeft: "x"],
-                GridSlot.midLeft: [.swipeDown: "ö", .swipeRight: "k"],
-                GridSlot.center: [
-                    .swipeUpLeft: "q", .swipeUp: "u", .swipeUpRight: "p",
-                    .swipeRight: "b", .swipeDownRight: "j", .swipeDown: "d",
-                    .swipeDownLeft: "g", .swipeLeft: "c",
+                        directionalOverrides: [
+                GridSlot.r0c0: [
+                    .swipeUp: "å",
+                    .swipeDown: "ä",
                 ],
-                GridSlot.midRight: [.swipeLeft: "m"],
-                GridSlot.bottomLeft: [.swipeUpRight: "y"],
-                GridSlot.bottomCenter: [.swipeUp: "w", .swipeRight: "z"],
-                GridSlot.bottomRight: [.swipeUpLeft: "f"],
+                GridSlot.r0c1: [.swipeDown: "l"],
+                GridSlot.r1c0: [.swipeDown: "ö"],
+                GridSlot.r1c1: [
+                    .swipeUp: "u",
+                    .swipeDown: "d",
+                ],
+                GridSlot.r2c1: [.swipeUp: "w"],
+                GridSlot.r0c3: [.swipeUp: "v"],
+                GridSlot.r1c3: [.swipeUp: "b"],
+                GridSlot.r2c3: [.swipeUp: "f"],
             ]
         )
     }
@@ -162,24 +168,29 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["a", "n", "i"],
-                ["u", "o", "r"],
-                ["t", "e", "s"],
+                ["a", "n", "i", ""],
+                ["u", "o", "r", ""],
+                ["t", "e", "s", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeUpRight: "à", .swipeDown: "â", .swipeDownRight: "v"],
-                GridSlot.topCenter: [.swipeDown: "l"],
-                GridSlot.topRight: [.swipeDownLeft: "x"],
-                GridSlot.midLeft: [.swipeUp: "û", .swipeDown: "ç", .swipeRight: "k"],
-                GridSlot.center: [
-                    .swipeUpLeft: "q", .swipeUp: "h", .swipeUpRight: "p",
-                    .swipeRight: "b", .swipeDownRight: "j", .swipeDown: "d",
-                    .swipeDownLeft: "g", .swipeLeft: "c",
+                        directionalOverrides: [
+                GridSlot.r0c0: [.swipeDown: "â"],
+                GridSlot.r0c1: [.swipeDown: "l"],
+                GridSlot.r1c0: [
+                    .swipeUp: "û",
+                    .swipeDown: "ç",
                 ],
-                GridSlot.midRight: [.swipeLeft: "m"],
-                GridSlot.bottomLeft: [.swipeUp: "ê", .swipeRight: "è", .swipeDown: "ù", .swipeUpRight: "y"],
-                GridSlot.bottomCenter: [.swipeUp: "w", .swipeRight: "z", .swipeLeft: "é"],
-                GridSlot.bottomRight: [.swipeUpLeft: "f"],
+                GridSlot.r1c1: [
+                    .swipeUp: "h",
+                    .swipeDown: "d",
+                ],
+                GridSlot.r2c0: [
+                    .swipeUp: "ê",
+                    .swipeDown: "ù",
+                ],
+                GridSlot.r2c1: [.swipeUp: "w"],
+                GridSlot.r0c3: [.swipeUp: "v"],
+                GridSlot.r1c3: [.swipeUp: "b"],
+                GridSlot.r2c3: [.swipeUp: "f"],
             ]
         )
     }
@@ -196,24 +207,26 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["a", "n", "i"],
-                ["h", "d", "r"],
-                ["t", "e", "s"],
+                ["a", "n", "i", ""],
+                ["h", "d", "r", ""],
+                ["t", "e", "s", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeDown: "ä", .swipeDownRight: "v"],
-                GridSlot.topCenter: [.swipeDown: "l"],
-                GridSlot.topRight: [.swipeDownLeft: "x"],
-                GridSlot.midLeft: [.swipeUp: "ü", .swipeDown: "ö", .swipeRight: "k"],
-                GridSlot.center: [
-                    .swipeUp: "u", .swipeUpLeft: "q", .swipeLeft: "c",
-                    .swipeDownLeft: "g", .swipeDown: "o", .swipeDownRight: "j",
-                    .swipeRight: "b", .swipeUpRight: "p",
+                        directionalOverrides: [
+                GridSlot.r0c0: [.swipeDown: "ä"],
+                GridSlot.r0c1: [.swipeDown: "l"],
+                GridSlot.r1c0: [
+                    .swipeUp: "ü",
+                    .swipeDown: "ö",
                 ],
-                GridSlot.midRight: [.swipeLeft: "m"],
-                GridSlot.bottomLeft: [.swipeDown: "ß", .swipeUpRight: "y"],
-                GridSlot.bottomCenter: [.swipeUp: "w", .swipeRight: "z"],
-                GridSlot.bottomRight: [.swipeUpLeft: "f"],
+                GridSlot.r1c1: [
+                    .swipeUp: "u",
+                    .swipeDown: "o",
+                ],
+                GridSlot.r2c0: [.swipeDown: "ß"],
+                GridSlot.r2c1: [.swipeUp: "w"],
+                GridSlot.r0c3: [.swipeUp: "v"],
+                GridSlot.r1c3: [.swipeUp: "b"],
+                GridSlot.r2c3: [.swipeUp: "f"],
             ]
         )
     }
@@ -230,37 +243,23 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["ר", "ב", "א"],
-                ["מ", "י", "ו"],
-                ["ת", "ה", "ל"],
+                ["ר", "ב", "א", ""],
+                ["מ", "י", "ו", ""],
+                ["ת", "ה", "ל", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeDownRight: "ן"],
-                GridSlot.topCenter: [.swipeDown: "ג"],
-                GridSlot.topRight: [.swipeDownLeft: "צ"],
-                GridSlot.midLeft: [.swipeRight: "ם"],
-                GridSlot.center: [
-                    .swipeUpLeft: "ק", .swipeUp: "ח", .swipeUpRight: "פ",
-                    .swipeRight: "ד", .swipeDownRight: "ש", .swipeDown: "נ",
-                    .swipeDownLeft: "כ", .swipeLeft: "ע",
+                        directionalOverrides: [
+                GridSlot.r0c1: [.swipeDown: "ג"],
+                GridSlot.r1c1: [
+                    .swipeUp: "ח",
+                    .swipeDown: "נ",
                 ],
-                GridSlot.bottomLeft: [.swipeUpRight: "ז"],
-                // Geresh and gershayim carry Hebrew abbreviations, acronyms and
-                // numerals (ד״ר, צה״ל); the reference puts them where the Latin
-                // quotes sit. Those stay one return swipe away, and on the
-                // numeric layer.
-                GridSlot.bottomCenter: [.swipeUp: "ס", .swipeUpLeft: "״", .swipeUpRight: "׳"],
-                GridSlot.bottomRight: [.swipeUpLeft: "ט"],
+                GridSlot.r2c1: [.swipeUp: "ס"],
+                GridSlot.r0c3: [.swipeUp: "v"],
+                GridSlot.r1c3: [.swipeUp: "b"],
+                GridSlot.r2c3: [.swipeUp: "f"],
             ],
             // MessagEase convention: a return swipe on a base letter produces
             // its final form (ן/ם additionally keep their dedicated swipes).
-            returnOverrides: [
-                GridSlot.topRight: [.swipeDownLeft: "ץ"],
-                GridSlot.center: [
-                    .swipeUpRight: "ף", .swipeDown: "ן", .swipeDownLeft: "ך",
-                ],
-                GridSlot.bottomCenter: [.swipeUpLeft: "\"", .swipeUpRight: "'"],
-            ],
             // Hebrew is caseless: no shift key, no shifted/capsLock modes,
             // no auto-capitalization.
             supportsCapitalization: false,
@@ -280,24 +279,24 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["a", "n", "i"],
-                ["l", "o", "r"],
-                ["t", "e", "s"],
+                ["a", "n", "i", ""],
+                ["l", "o", "r", ""],
+                ["t", "e", "s", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeUpRight: "à", .swipeDownRight: "v"],
-                GridSlot.topCenter: [.swipeDown: "h"],
-                GridSlot.topRight: [.swipeUpLeft: "ì", .swipeDownLeft: "x"],
-                GridSlot.midLeft: [.swipeUp: "ù", .swipeDown: "ò", .swipeRight: "k"],
-                GridSlot.center: [
-                    .swipeUpLeft: "q", .swipeUp: "u", .swipeUpRight: "p",
-                    .swipeRight: "b", .swipeDownRight: "j", .swipeDown: "d",
-                    .swipeDownLeft: "g", .swipeLeft: "c",
+                        directionalOverrides: [
+                GridSlot.r0c1: [.swipeDown: "h"],
+                GridSlot.r1c0: [
+                    .swipeUp: "ù",
+                    .swipeDown: "ò",
                 ],
-                GridSlot.midRight: [.swipeLeft: "m"],
-                GridSlot.bottomLeft: [.swipeRight: "è", .swipeUpRight: "y"],
-                GridSlot.bottomCenter: [.swipeUp: "w", .swipeRight: "z", .swipeLeft: "é"],
-                GridSlot.bottomRight: [.swipeUpLeft: "f"],
+                GridSlot.r1c1: [
+                    .swipeUp: "u",
+                    .swipeDown: "d",
+                ],
+                GridSlot.r2c1: [.swipeUp: "w"],
+                GridSlot.r0c3: [.swipeUp: "v"],
+                GridSlot.r1c3: [.swipeUp: "b"],
+                GridSlot.r2c3: [.swipeUp: "f"],
             ]
         )
     }
@@ -314,24 +313,29 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["a", "n", "i"],
-                ["w", "o", "r"],
-                ["z", "e", "s"],
+                ["a", "n", "i", ""],
+                ["w", "o", "r", ""],
+                ["z", "e", "s", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeDown: "ą", .swipeDownRight: "v"],
-                GridSlot.topCenter: [.swipeUp: "ń", .swipeDown: "l"],
-                GridSlot.topRight: [.swipeUpLeft: "ł", .swipeDownLeft: "x"],
-                GridSlot.midLeft: [.swipeUp: "ó", .swipeDown: "ć", .swipeRight: "k"],
-                GridSlot.center: [
-                    .swipeUpLeft: "q", .swipeUp: "u", .swipeUpRight: "p",
-                    .swipeRight: "b", .swipeDownRight: "j", .swipeDown: "d",
-                    .swipeDownLeft: "g", .swipeLeft: "c",
+                        directionalOverrides: [
+                GridSlot.r0c0: [.swipeDown: "ą"],
+                GridSlot.r0c1: [
+                    .swipeUp: "ń",
+                    .swipeDown: "l",
                 ],
-                GridSlot.midRight: [.swipeLeft: "m"],
-                GridSlot.bottomLeft: [.swipeDown: "ę", .swipeRight: "ź", .swipeUpRight: "y"],
-                GridSlot.bottomCenter: [.swipeUp: "h", .swipeRight: "t", .swipeLeft: "ż"],
-                GridSlot.bottomRight: [.swipeUpLeft: "f", .swipeLeft: "ś"],
+                GridSlot.r1c0: [
+                    .swipeUp: "ó",
+                    .swipeDown: "ć",
+                ],
+                GridSlot.r1c1: [
+                    .swipeUp: "u",
+                    .swipeDown: "d",
+                ],
+                GridSlot.r2c0: [.swipeDown: "ę"],
+                GridSlot.r2c1: [.swipeUp: "h"],
+                GridSlot.r0c3: [.swipeUp: "v"],
+                GridSlot.r1c3: [.swipeUp: "b"],
+                GridSlot.r2c3: [.swipeUp: "f"],
             ]
         )
     }
@@ -348,24 +352,29 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["с", "и", "т"],
-                ["в", "о", "а"],
-                ["е", "р", "н"],
+                ["с", "и", "т", ""],
+                ["в", "о", "а", ""],
+                ["е", "р", "н", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeDown: "ц", .swipeDownRight: "п"],
-                GridSlot.topCenter: [.swipeUp: "й", .swipeDown: "к"],
-                GridSlot.topRight: [.swipeDownLeft: "ь"],
-                GridSlot.midLeft: [.swipeUp: "б", .swipeDown: "ъ", .swipeRight: "ы"],
-                GridSlot.center: [
-                    .swipeUpLeft: "ч", .swipeUp: "м", .swipeUpRight: "х",
-                    .swipeRight: "г", .swipeDownRight: "ш", .swipeDown: "я",
-                    .swipeDownLeft: "щ", .swipeLeft: "ж",
+                        directionalOverrides: [
+                GridSlot.r0c0: [.swipeDown: "ц"],
+                GridSlot.r0c1: [
+                    .swipeUp: "й",
+                    .swipeDown: "к",
                 ],
-                GridSlot.midRight: [.swipeLeft: "л"],
-                GridSlot.bottomLeft: [.swipeUp: "ё", .swipeRight: "э", .swipeUpRight: "д"],
-                GridSlot.bottomCenter: [.swipeUp: "у", .swipeRight: "з", .swipeLeft: "ю"],
-                GridSlot.bottomRight: [.swipeUpLeft: "ф"],
+                GridSlot.r1c0: [
+                    .swipeUp: "б",
+                    .swipeDown: "ъ",
+                ],
+                GridSlot.r1c1: [
+                    .swipeUp: "м",
+                    .swipeDown: "я",
+                ],
+                GridSlot.r2c0: [.swipeUp: "ё"],
+                GridSlot.r2c1: [.swipeUp: "у"],
+                GridSlot.r0c3: [.swipeUp: "v"],
+                GridSlot.r1c3: [.swipeUp: "b"],
+                GridSlot.r2c3: [.swipeUp: "f"],
             ],
             numericBackToAlphaLabel: "абв"
         )
@@ -383,24 +392,35 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["a", "n", "i"],
-                ["d", "o", "r"],
-                ["t", "e", "s"],
+                ["a", "n", "i", ""],
+                ["d", "o", "r", ""],
+                ["t", "e", "s", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeUp: "à", .swipeDown: "á", .swipeDownRight: "v"],
-                GridSlot.topCenter: [.swipeUp: "ñ", .swipeDown: "l"],
-                GridSlot.topRight: [.swipeUpLeft: "í", .swipeUpRight: "ï", .swipeDownLeft: "x"],
-                GridSlot.midLeft: [.swipeUp: "ü", .swipeDown: "ç", .swipeRight: "k"],
-                GridSlot.center: [
-                    .swipeUpLeft: "q", .swipeUp: "u", .swipeUpRight: "p",
-                    .swipeRight: "b", .swipeDownRight: "j", .swipeDown: "h",
-                    .swipeDownLeft: "g", .swipeLeft: "c",
+                        directionalOverrides: [
+                GridSlot.r0c0: [
+                    .swipeUp: "à",
+                    .swipeDown: "á",
                 ],
-                GridSlot.midRight: [.swipeLeft: "m"],
-                GridSlot.bottomLeft: [.swipeUp: "ú", .swipeDown: "ó", .swipeUpRight: "y"],
-                GridSlot.bottomCenter: [.swipeUp: "w", .swipeRight: "z", .swipeLeft: "é"],
-                GridSlot.bottomRight: [.swipeUpLeft: "f"],
+                GridSlot.r0c1: [
+                    .swipeUp: "ñ",
+                    .swipeDown: "l",
+                ],
+                GridSlot.r1c0: [
+                    .swipeUp: "ü",
+                    .swipeDown: "ç",
+                ],
+                GridSlot.r1c1: [
+                    .swipeUp: "u",
+                    .swipeDown: "h",
+                ],
+                GridSlot.r2c0: [
+                    .swipeUp: "ú",
+                    .swipeDown: "ó",
+                ],
+                GridSlot.r2c1: [.swipeUp: "w"],
+                GridSlot.r0c3: [.swipeUp: "v"],
+                GridSlot.r1c3: [.swipeUp: "b"],
+                GridSlot.r2c3: [.swipeUp: "f"],
             ]
         )
     }
@@ -417,24 +437,29 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["a", "n", "i"],
-                ["d", "o", "r"],
-                ["t", "e", "s"],
+                ["a", "n", "i", ""],
+                ["d", "o", "r", ""],
+                ["t", "e", "s", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeDown: "á", .swipeDownRight: "v"],
-                GridSlot.topCenter: [.swipeUp: "ñ", .swipeDown: "l"],
-                GridSlot.topRight: [.swipeUpLeft: "í", .swipeDownLeft: "x"],
-                GridSlot.midLeft: [.swipeUp: "ü", .swipeRight: "k"],
-                GridSlot.center: [
-                    .swipeUpLeft: "q", .swipeUp: "u", .swipeUpRight: "p",
-                    .swipeRight: "b", .swipeDownRight: "j", .swipeDown: "h",
-                    .swipeDownLeft: "g", .swipeLeft: "c",
+                        directionalOverrides: [
+                GridSlot.r0c0: [.swipeDown: "á"],
+                GridSlot.r0c1: [
+                    .swipeUp: "ñ",
+                    .swipeDown: "l",
                 ],
-                GridSlot.midRight: [.swipeLeft: "m"],
-                GridSlot.bottomLeft: [.swipeUp: "ú", .swipeDown: "ó", .swipeUpRight: "y"],
-                GridSlot.bottomCenter: [.swipeUp: "w", .swipeRight: "z", .swipeLeft: "é"],
-                GridSlot.bottomRight: [.swipeUpLeft: "f"],
+                GridSlot.r1c0: [.swipeUp: "ü"],
+                GridSlot.r1c1: [
+                    .swipeUp: "u",
+                    .swipeDown: "h",
+                ],
+                GridSlot.r2c0: [
+                    .swipeUp: "ú",
+                    .swipeDown: "ó",
+                ],
+                GridSlot.r2c1: [.swipeUp: "w"],
+                GridSlot.r0c3: [.swipeUp: "v"],
+                GridSlot.r1c3: [.swipeUp: "b"],
+                GridSlot.r2c3: [.swipeUp: "f"],
             ]
         )
     }
@@ -451,24 +476,25 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["a", "n", "i"],
-                ["h", "d", "r"],
-                ["t", "e", "s"],
+                ["a", "n", "i", ""],
+                ["h", "d", "r", ""],
+                ["t", "e", "s", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeUp: "å", .swipeDown: "ä", .swipeDownRight: "v"],
-                GridSlot.topCenter: [.swipeDown: "l"],
-                GridSlot.topRight: [.swipeDownLeft: "x"],
-                GridSlot.midLeft: [.swipeDown: "ö", .swipeRight: "k"],
-                GridSlot.center: [
-                    .swipeUpLeft: "q", .swipeUp: "u", .swipeUpRight: "p",
-                    .swipeRight: "b", .swipeDownRight: "j", .swipeDown: "o",
-                    .swipeDownLeft: "g", .swipeLeft: "c",
+                        directionalOverrides: [
+                GridSlot.r0c0: [
+                    .swipeUp: "å",
+                    .swipeDown: "ä",
                 ],
-                GridSlot.midRight: [.swipeLeft: "m"],
-                GridSlot.bottomLeft: [.swipeUpRight: "y"],
-                GridSlot.bottomCenter: [.swipeUp: "w", .swipeRight: "z"],
-                GridSlot.bottomRight: [.swipeUpLeft: "f"],
+                GridSlot.r0c1: [.swipeDown: "l"],
+                GridSlot.r1c0: [.swipeDown: "ö"],
+                GridSlot.r1c1: [
+                    .swipeUp: "u",
+                    .swipeDown: "o",
+                ],
+                GridSlot.r2c1: [.swipeUp: "w"],
+                GridSlot.r0c3: [.swipeUp: "v"],
+                GridSlot.r1c3: [.swipeUp: "b"],
+                GridSlot.r2c3: [.swipeUp: "f"],
             ]
         )
     }
@@ -485,24 +511,23 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["a", "n", "i"],
-                ["h", "o", "r"],
-                ["t", "e", "s"],
+                ["a", "n", "i", ""],
+                ["h", "o", "r", ""],
+                ["t", "e", "s", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeDownRight: "v"],
-                GridSlot.topCenter: [.swipeUp: "ñ", .swipeDown: "l"],
-                GridSlot.topRight: [.swipeDownLeft: "x"],
-                GridSlot.midLeft: [.swipeRight: "k"],
-                GridSlot.center: [
-                    .swipeUpLeft: "q", .swipeUp: "u", .swipeUpRight: "p",
-                    .swipeRight: "b", .swipeDownRight: "j", .swipeDown: "d",
-                    .swipeDownLeft: "g", .swipeLeft: "c",
+                        directionalOverrides: [
+                GridSlot.r0c1: [
+                    .swipeUp: "ñ",
+                    .swipeDown: "l",
                 ],
-                GridSlot.midRight: [.swipeLeft: "m"],
-                GridSlot.bottomLeft: [.swipeUpRight: "y"],
-                GridSlot.bottomCenter: [.swipeUp: "w", .swipeRight: "z"],
-                GridSlot.bottomRight: [.swipeUpLeft: "f"],
+                GridSlot.r1c1: [
+                    .swipeUp: "u",
+                    .swipeDown: "d",
+                ],
+                GridSlot.r2c1: [.swipeUp: "w"],
+                GridSlot.r0c3: [.swipeUp: "v"],
+                GridSlot.r1c3: [.swipeUp: "b"],
+                GridSlot.r2c3: [.swipeUp: "f"],
             ]
         )
     }
@@ -519,24 +544,21 @@ enum LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["a", "n", "i"],
-                ["h", "o", "r"],
-                ["t", "e", "s"],
+                ["a", "n", "i", ""],
+                ["h", "o", "r", ""],
+                ["t", "e", "s", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeDown: "đ", .swipeDownRight: "v"],
-                GridSlot.topCenter: [.swipeDown: "l"],
-                GridSlot.topRight: [.swipeDownLeft: "x"],
-                GridSlot.midLeft: [.swipeRight: "k"],
-                GridSlot.center: [
-                    .swipeUpLeft: "q", .swipeUp: "u", .swipeUpRight: "p",
-                    .swipeRight: "b", .swipeDownRight: "j", .swipeDown: "d",
-                    .swipeDownLeft: "g", .swipeLeft: "c",
+                        directionalOverrides: [
+                GridSlot.r0c0: [.swipeDown: "đ"],
+                GridSlot.r0c1: [.swipeDown: "l"],
+                GridSlot.r1c1: [
+                    .swipeUp: "u",
+                    .swipeDown: "d",
                 ],
-                GridSlot.midRight: [.swipeLeft: "m"],
-                GridSlot.bottomLeft: [.swipeUpRight: "y"],
-                GridSlot.bottomCenter: [.swipeUp: "w", .swipeRight: "z"],
-                GridSlot.bottomRight: [.swipeUpLeft: "f"],
+                GridSlot.r2c1: [.swipeUp: "w"],
+                GridSlot.r0c3: [.swipeUp: "v"],
+                GridSlot.r1c3: [.swipeUp: "b"],
+                GridSlot.r2c3: [.swipeUp: "f"],
             ],
             inputMethod: .telex
         )

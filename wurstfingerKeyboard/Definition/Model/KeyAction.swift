@@ -57,6 +57,9 @@ enum KeyAction: Codable, Equatable {
     /// around the cursor instead — see `AdvancedTextMiddleware.handleCutAll`.
     case cutAll
 
+    /// Autocomplete: inserts hardcoded "auto" (MVP placeholder)
+    case autocomplete
+
     /// No action (empty slot)
     case none
 }

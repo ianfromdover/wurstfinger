@@ -2,23 +2,47 @@
 //  CommonKeys.swift
 //  Wurstfinger
 //
-//  Shared key definitions reusable across all MessagEase languages.
+//  Shared key definitions reusable across all keyboard layouts.
 //
 
 import Foundation
 
-/// Shared key definitions reusable across all MessagEase languages.
-/// Utility keys and default punctuation/symbol bindings for the 3x3 grid.
+/// Shared key definitions reusable across all keyboard layouts.
+/// Utility keys and default punctuation/symbol bindings for the 4-column grid.
 enum CommonKeys {
     // MARK: - Utility Keys
 
+    /// Clipboard key: Copy (swipeUp) / Cut (tap) / Paste (swipeDown).
+    static let clipboard: KeyConfig = {
+        var bindings: [GestureType: KeyBinding] = [:]
+        bindings[.tap] = KeyBinding(
+            label: "", action: .cut, category: .utility,
+            returnAction: nil, accessibilityLabel: String(localized: "Cut")
+        )
+        bindings[.swipeUp] = KeyBinding(
+            label: "", action: .copy, category: .utility,
+            returnAction: nil, accessibilityLabel: String(localized: "Copy")
+        )
+        bindings[.swipeDown] = KeyBinding(
+            label: "", action: .paste, category: .utility,
+            returnAction: nil, accessibilityLabel: String(localized: "Paste")
+        )
+        return KeyConfig(
+            id: UtilitySlot.clipboard, bindings: bindings,
+            swipeMode: .twoWayVertical, slideType: .none,
+            style: .utility, tapCycleActions: nil
+        )
+    }()
+
+    /// Autocomplete key: tap inserts "auto" (MVP placeholder).
+    static let autocomplete: KeyConfig = KeyConfig.utility(
+        UtilitySlot.autocomplete, label: "auto", action: .autocomplete,
+        accessibilityLabel: String(localized: "Autocomplete")
+    )
+
+    /// Globe key: switches input method. Now accessed via r3c0.swipeDown.
     static let globe: KeyConfig = {
         var bindings: [GestureType: KeyBinding] = [:]
-        // Tap is intentionally inert: switching the input method lives on the
-        // swipe-left gesture below. The empty `.none` slot keeps the key's
-        // accessibility label without re-triggering the globe on a plain tap;
-        // `accessibilityActivationGesture` routes a VoiceOver activation to
-        // that swipe so the label stays true for gesture-free input.
         bindings[.tap] = KeyBinding(
             label: "", action: .none,
             category: .utility, returnAction: nil,
@@ -53,18 +77,80 @@ enum CommonKeys {
         accessibilityLabel: String(localized: "Delete")
     )
 
-    static let `return` = KeyConfig.utility(
-        UtilitySlot.return, label: "↵", action: .newline,
-        accessibilityLabel: String(localized: "New line")
+    /// Return key: tap = newline, swipeDown = dismiss keyboard.
+    static let `return`: KeyConfig = {
+        var bindings: [GestureType: KeyBinding] = [:]
+        bindings[.tap] = KeyBinding(
+            label: "↵", action: .newline, category: .utility,
+            returnAction: nil, accessibilityLabel: String(localized: "New line")
+        )
+        bindings[.swipeDown] = KeyBinding(
+            label: "", action: .dismissKeyboard, category: .utility,
+            returnAction: nil, accessibilityLabel: String(localized: "Hide keyboard")
+        )
+        return KeyConfig(
+            id: UtilitySlot.return, bindings: bindings,
+            swipeMode: .twoWayVertical, slideType: .none,
+            style: .utility, tapCycleActions: nil
+        )
+    }()
+
+    /// r3c0 (bottom-left key): tap = 123 (numeric), swipeUp = emoji (inert for now),
+    /// swipeDown = next input mode.
+    static let r3c0: KeyConfig = {
+        var bindings: [GestureType: KeyBinding] = [:]
+        bindings[.tap] = KeyBinding(
+            label: "123", action: .switchMode(ModeNames.numeric),
+            category: .utility, returnAction: nil,
+            accessibilityLabel: String(localized: "Numbers")
+        )
+        bindings[.swipeUp] = KeyBinding(
+            label: "", action: .switchMode(ModeNames.emoji),
+            category: .utility, returnAction: nil,
+            accessibilityLabel: String(localized: "Emoji")
+        )
+        bindings[.swipeDown] = KeyBinding(
+            label: "", action: .advanceToNextInputMode,
+            category: .utility, returnAction: nil,
+            accessibilityLabel: String(localized: "Switch keyboard")
+        )
+        return KeyConfig(
+            id: GridSlot.r3c0, bindings: bindings,
+            swipeMode: .twoWayVertical, slideType: .none,
+            style: .utility, tapCycleActions: nil
+        )
+    }()
+
+    /// Switches to the numeric mode (old symbols key, kept for numeric layer).
+    static let symbols = KeyConfig.utility(
+        UtilitySlot.symbols, label: "123", action: .switchMode(ModeNames.numeric),
+        swipeMode: .eightWay,
+        swipes: clipboardBindings,
+        accessibilityLabel: String(localized: "Numbers")
     )
 
+    /// Space bar with hold-for-digit.
+    static func spacebar(zeroDigit: String = "0") -> KeyConfig {
+        KeyConfig(
+            id: UtilitySlot.space,
+            bindings: [
+                .tap: KeyBinding(
+                    label: "␣", action: .space, category: .utility,
+                    returnAction: nil, accessibilityLabel: String(localized: "Space")
+                ),
+                .longPress: KeyBinding(
+                    label: zeroDigit, action: .commitText(zeroDigit),
+                    category: .digit, returnAction: nil, accessibilityLabel: nil
+                ),
+            ],
+            swipeMode: .none,
+            slideType: .moveCursor,
+            style: .spacebar,
+            tapCycleActions: nil
+        )
+    }
+
     /// Cut-all, bound to both circle directions below.
-    ///
-    /// Circling one key is easier to aim than circling a letter, and the key
-    /// already owns the clipboard, so the gesture reads as "cut, but for
-    /// everything". The direction is deliberately not distinguished: a thumb
-    /// circle rarely comes out the way it was intended, and mapping the two
-    /// directions to different clipboard actions would make a slip destructive.
     private static let cutAll = KeyBinding(
         label: "", action: .cutAll, category: .utility,
         returnAction: nil, accessibilityLabel: String(localized: "Cut all")
@@ -88,305 +174,128 @@ enum CommonKeys {
         .circularCounterclockwise: cutAll,
     ]
 
-    /// Switches to the numeric mode. The label is the glyph sequence "123",
-    /// which VoiceOver reads as the *number* one hundred twenty-three, so the
-    /// tap carries a semantic name — as every neighbouring utility key does.
-    /// Its counterpart is `NumericLayouts.backToMain`, named "Letters".
-    static let symbols = KeyConfig.utility(
-        UtilitySlot.symbols, label: "123", action: .switchMode(ModeNames.numeric),
-        swipeMode: .eightWay,
-        swipes: clipboardBindings,
-        accessibilityLabel: String(localized: "Numbers")
-    )
-
-    /// Space bar. The `zeroDigit` parameterizes the hold-for-digit output so
-    /// each layout can emit its own native zero (e.g. Arabic ٠); it defaults to
-    /// ASCII "0". `GridKeyboardFactory` and `NumericLayouts` pass the layout's
-    /// first numeric digit.
-    static func spacebar(zeroDigit: String = "0") -> KeyConfig {
-        KeyConfig(
-            id: UtilitySlot.space,
-            bindings: [
-                .tap: KeyBinding(
-                    label: "␣", action: .space, category: .utility,
-                    returnAction: nil, accessibilityLabel: String(localized: "Space")
-                ),
-                // The hold-for-digit feature pairs 0 with the space bar (no
-                // letter-layer slot maps to 0 otherwise). Long presses
-                // only occur with the opt-in setting enabled, so this is inert by
-                // default; .longPress has no hint alignment, so nothing renders.
-                .longPress: KeyBinding(
-                    label: zeroDigit, action: .commitText(zeroDigit),
-                    category: .digit, returnAction: nil, accessibilityLabel: nil
-                ),
-            ],
-            swipeMode: .none,
-            slideType: .moveCursor,
-            style: .spacebar,
-            tapCycleActions: nil
-        )
-    }
-
     /// All utility keys as dictionary, mergeable with language keys.
     static let allUtilityKeys: [String: KeyConfig] = [
-        UtilitySlot.globe: globe,
+        UtilitySlot.clipboard: clipboard,
+        UtilitySlot.autocomplete: autocomplete,
         UtilitySlot.delete: delete,
         UtilitySlot.return: `return`,
         UtilitySlot.symbols: symbols,
         UtilitySlot.space: spacebar(),
+        GridSlot.r3c0: r3c0,
     ]
 
     // MARK: - Default Slot Bindings
 
-    /// Shared punctuation, symbol, compose, and action bindings for each grid slot.
-    /// The factory merges these with language-specific center characters.
-    /// Each KeyBinding includes both the primary action and an optional return-swipe action.
+    /// Default punctuation, symbol, compose, and action bindings for each grid slot.
+    /// The factory merges these with language-specific center characters and
+    /// directional overrides.
     ///
-    /// **Which of these carry an `accessibilityLabel`, and why so few.** A label
-    /// is the opt-in for a VoiceOver custom action (`KeyConfig.accessibilityActions`)
-    /// and every named binding becomes a rotor entry on that key, so naming all
-    /// eight directions would put eight to sixteen entries on every letter key —
-    /// exactly what the opt-in exists to prevent. Until swipe outputs can be
-    /// offered as generated, spoken-glyph actions (follow-up design work), only
-    /// bindings that are unreachable without gestures *and* have no workaround
-    /// are named:
+    /// Only `.swipeUp` and `.swipeDown` are defined (letter keys use
+    /// `.twoWayVertical` swipe mode). Left, right, and diagonal swipes
+    /// are removed from the letter grid.
     ///
-    /// - `,` `.` `?` — sentence punctuation. Auto-capitalization and the
-    ///   double-space shortcut can stand in for a period; nothing stands in for
-    ///   comma and question mark, and a keyboard that cannot end a question is
-    ///   not usable without gestures.
-    /// - `⇧` / `⇩` — deliberate capitalization. Auto-capitalization only produces
-    ///   sentence-initial capitals, so names and acronyms need the modifier. Both
-    ///   directions are named so that caps lock is not a one-way door: `⇧` in the
-    ///   caps-lock mode is a no-op, and `⇩` is the only way back.
-    ///
-    /// Letter bindings stay unnamed on purpose: a key's own center letter is
-    /// already reachable by activating it, and naming its other eight directions
-    /// is the flooding case above. Names state the *function*, not the glyph, so
-    /// `GridKeyboardFactory` hands them down when a layout substitutes its own
-    /// script's mark (Arabic `،`, Japanese `。`).
+    /// **Accessibility labels** follow the same convention as before: only
+    /// sentence punctuation (, . ?) and the shift/capsLock affordance get
+    /// named, because every named binding becomes a VoiceOver rotor entry.
     static let defaultSlotBindings: [String: [GestureType: KeyBinding]] = [
-        // MARK: topLeft
+        // MARK: r0c0
 
-        GridSlot.topLeft: [
-            .swipeUpLeft: KeyBinding(
-                label: "\u{1F152}", action: .cycleAccents, category: .compose,
-                returnAction: .cycleAccents, accessibilityLabel: nil
-            ),
-            .swipeRight: KeyBinding(
-                label: "-", action: .commitText("-"), category: nil,
-                returnAction: .commitText("÷"), accessibilityLabel: nil
-            ),
-            .swipeDownLeft: KeyBinding(
-                label: "$", action: .compose(trigger: "$"), category: .compose,
-                returnAction: .commitText("¥"), accessibilityLabel: nil
+        GridSlot.r0c0: [:],
+
+        // MARK: r0c1
+
+        GridSlot.r0c1: [:],
+
+        // MARK: r0c2 — colon on swipeUp (symbol default, overridable per language)
+
+        GridSlot.r0c2: [
+            .swipeUp: KeyBinding(
+                label: ":", action: .commitText(":"), category: nil,
+                returnAction: .commitText(";"), accessibilityLabel: nil
             ),
         ],
 
-        // MARK: topCenter
+        // MARK: r0c3
 
-        GridSlot.topCenter: [
-            .swipeUpLeft: KeyBinding(
-                label: "`", action: .compose(trigger: "ˋ"), category: .compose,
-                returnAction: .commitText("\u{2018}"), accessibilityLabel: nil
-            ),
+        GridSlot.r0c3: [:],
+
+        // MARK: r1c0 — exclamation on swipeUp
+
+        GridSlot.r1c0: [
             .swipeUp: KeyBinding(
-                label: "^", action: .compose(trigger: "^"), category: .compose,
-                returnAction: .compose(trigger: "ˇ"), accessibilityLabel: nil
-            ),
-            .swipeUpRight: KeyBinding(
-                label: "´", action: .compose(trigger: "´"), category: .compose,
-                returnAction: .commitText("\u{2019}"), accessibilityLabel: nil
-            ),
-            .swipeRight: KeyBinding(
                 label: "!", action: .commitText("!"), category: nil,
                 returnAction: .commitText("¡"), accessibilityLabel: nil
             ),
-            .swipeDownRight: KeyBinding(
-                label: "\\", action: .commitText("\\"), category: nil,
-                returnAction: .commitText("—"), accessibilityLabel: nil
-            ),
-            .swipeDownLeft: KeyBinding(
+        ],
+
+        // MARK: r1c1 — slash on swipeUp
+
+        GridSlot.r1c1: [
+            .swipeUp: KeyBinding(
                 label: "/", action: .commitText("/"), category: nil,
-                returnAction: .commitText("–"), accessibilityLabel: nil
-            ),
-            .swipeLeft: KeyBinding(
-                label: "+", action: .commitText("+"), category: nil,
-                returnAction: .commitText("×"), accessibilityLabel: nil
+                returnAction: .commitText("?"), accessibilityLabel: nil
             ),
         ],
 
-        // MARK: topRight
+        // MARK: r1c2 — hyphen on swipeUp
 
-        GridSlot.topRight: [
-            .swipeUpRight: KeyBinding(
-                label: "", action: .commitText("\n"), category: nil,
-                returnAction: .commitText("\n"), accessibilityLabel: nil
+        GridSlot.r1c2: [
+            .swipeUp: KeyBinding(
+                label: "-", action: .commitText("-"), category: nil,
+                returnAction: .commitText("—"), accessibilityLabel: nil
             ),
-            .swipeDownRight: KeyBinding(
-                label: "€", action: .commitText("€"), category: nil,
-                returnAction: .commitText("£"), accessibilityLabel: nil
-            ),
-            .swipeDown: KeyBinding(
-                label: "=", action: .commitText("="), category: nil,
-                returnAction: .commitText("±"), accessibilityLabel: nil
-            ),
-            .swipeLeft: KeyBinding(
+        ],
+
+        // MARK: r1c3 — question mark on swipeUp (named)
+
+        GridSlot.r1c3: [
+            .swipeUp: KeyBinding(
                 label: "?", action: .commitText("?"), category: nil,
                 returnAction: .commitText("¿"),
                 accessibilityLabel: String(localized: "Question mark")
             ),
         ],
 
-        // MARK: midLeft
+        // MARK: r2c0 — shift on swipeUp
 
-        GridSlot.midLeft: [
-            .swipeUpLeft: KeyBinding(
-                label: "{", action: .commitText("{"), category: nil,
-                returnAction: .commitText("}"), accessibilityLabel: nil
-            ),
-            .swipeUpRight: KeyBinding(
-                label: "%", action: .commitText("%"), category: nil,
-                returnAction: .commitText("‰"), accessibilityLabel: nil
-            ),
-            .swipeDownRight: KeyBinding(
-                label: "_", action: .commitText("_"), category: nil,
-                returnAction: .commitText("¬"), accessibilityLabel: nil
-            ),
-            .swipeDownLeft: KeyBinding(
-                label: "[", action: .commitText("["), category: nil,
-                returnAction: .commitText("]"), accessibilityLabel: nil
-            ),
-            .swipeLeft: KeyBinding(
-                label: "(", action: .commitText("("), category: nil,
-                returnAction: .commitText(")"), accessibilityLabel: nil
-            ),
-        ],
-
-        // MARK: center — no defaults (all 8 directions are language-specific)
-
-        // MARK: midRight
-
-        GridSlot.midRight: [
-            .swipeUpLeft: KeyBinding(
-                label: "|", action: .commitText("|"), category: nil,
-                returnAction: .commitText("¶"), accessibilityLabel: nil
-            ),
-            // `KeyboardMode.replacingShiftUpBinding` repoints this to caps lock
-            // in the shifted mode and to a no-op in caps lock itself, which
-            // matches how a single shift key behaves everywhere else — and it
-            // decides the name per mode, because the caps-lock no-op must not
-            // become a rotor action. The return swipe (`capitalizeWord`) cannot
-            // be named separately: a binding carries one label, and a custom
-            // action always dispatches `isReturn: false`.
+        GridSlot.r2c0: [
             .swipeUp: KeyBinding(
                 label: "⇧", action: .switchMode(ModeNames.shifted), category: .modifier,
                 returnAction: .capitalizeWord(uppercased: true),
                 accessibilityLabel: String(localized: "Shift")
             ),
-            .swipeUpRight: KeyBinding(
-                label: "}", action: .commitText("}"), category: nil,
-                returnAction: .commitText("{"), accessibilityLabel: nil
-            ),
-            .swipeRight: KeyBinding(
-                label: ")", action: .commitText(")"), category: nil,
-                returnAction: .commitText("("), accessibilityLabel: nil
-            ),
-            // Only present in the shifted and caps-lock modes (the factory strips
-            // it from main). Named because it is the only way out of caps lock,
-            // where the ⇧ above switches to the mode it is already in.
-            .swipeDown: KeyBinding(
-                label: "⇩", action: .switchMode(ModeNames.main), category: .modifier,
-                returnAction: nil, accessibilityLabel: String(localized: "Lowercase")
-            ),
-            .swipeDownRight: KeyBinding(
-                label: "]", action: .commitText("]"), category: nil,
-                returnAction: .commitText("["), accessibilityLabel: nil
-            ),
-            .swipeDownLeft: KeyBinding(
-                label: "@", action: .commitText("@"), category: nil,
-                returnAction: .commitText("ª"), accessibilityLabel: nil
-            ),
         ],
 
-        // MARK: bottomLeft
+        // MARK: r2c1
 
-        GridSlot.bottomLeft: [
-            .swipeUpLeft: KeyBinding(
-                label: "~", action: .compose(trigger: "~"), category: .compose,
-                returnAction: .commitText("˜"), accessibilityLabel: nil
-            ),
+        GridSlot.r2c1: [:],
+
+        // MARK: r2c2 — apostrophe on swipeUp, comma on swipeDown
+
+        GridSlot.r2c2: [
             .swipeUp: KeyBinding(
-                label: "¨", action: .compose(trigger: "¨"), category: .compose,
-                returnAction: .commitText("˝"), accessibilityLabel: nil
-            ),
-            .swipeRight: KeyBinding(
-                label: "*", action: .commitText("*"), category: nil,
-                returnAction: .commitText("†"), accessibilityLabel: nil
-            ),
-            .swipeDownRight: KeyBinding(
-                label: "⇥", action: .commitText("\t"), category: nil,
-                returnAction: .commitText("\t"), accessibilityLabel: nil
-            ),
-            .swipeLeft: KeyBinding(
-                label: "<", action: .commitText("<"), category: nil,
-                returnAction: .commitText("‹"), accessibilityLabel: nil
-            ),
-        ],
-
-        // MARK: bottomCenter
-
-        GridSlot.bottomCenter: [
-            .swipeUpLeft: KeyBinding(
-                label: "\"", action: .commitText("\""), category: nil,
-                returnAction: .commitText("\u{201C}"), accessibilityLabel: nil
-            ),
-            .swipeUpRight: KeyBinding(
                 label: "'", action: .commitText("'"), category: nil,
-                returnAction: .commitText("\u{201D}"), accessibilityLabel: nil
-            ),
-            .swipeDownRight: KeyBinding(
-                label: ":", action: .commitText(":"), category: nil,
-                returnAction: .commitText("„"), accessibilityLabel: nil
+                returnAction: .commitText("\u{2019}"), accessibilityLabel: nil
             ),
             .swipeDown: KeyBinding(
-                label: ".", action: .commitText("."), category: nil,
-                returnAction: .commitText("…"),
-                accessibilityLabel: String(localized: "Period")
-            ),
-            .swipeDownLeft: KeyBinding(
                 label: ",", action: .commitText(","), category: nil,
                 returnAction: .commitText(","),
                 accessibilityLabel: String(localized: "Comma")
             ),
         ],
 
-        // MARK: bottomRight
+        // MARK: r2c3 — quote on swipeUp, period on swipeDown
 
-        GridSlot.bottomRight: [
+        GridSlot.r2c3: [
             .swipeUp: KeyBinding(
-                label: "&", action: .commitText("&"), category: nil,
-                returnAction: .commitText("§"), accessibilityLabel: nil
+                label: "\"", action: .commitText("\""), category: nil,
+                returnAction: .commitText("\u{201C}"), accessibilityLabel: nil
             ),
-            .swipeUpRight: KeyBinding(
-                label: "°", action: .compose(trigger: "°"), category: .compose,
-                returnAction: .commitText("º"), accessibilityLabel: nil
-            ),
-            .swipeRight: KeyBinding(
-                label: ">", action: .commitText(">"), category: nil,
-                returnAction: .commitText("›"), accessibilityLabel: nil
-            ),
-            .swipeDownRight: KeyBinding(
-                label: "", action: .commitText(" "), category: nil,
-                returnAction: .commitText(" "), accessibilityLabel: nil
-            ),
-            .swipeDownLeft: KeyBinding(
-                label: ";", action: .commitText(";"), category: nil,
-                returnAction: .commitText(";"), accessibilityLabel: nil
-            ),
-            .swipeLeft: KeyBinding(
-                label: "#", action: .commitText("#"), category: nil,
-                returnAction: .commitText("£"), accessibilityLabel: nil
+            .swipeDown: KeyBinding(
+                label: ".", action: .commitText("."), category: nil,
+                returnAction: .commitText("…"),
+                accessibilityLabel: String(localized: "Period")
             ),
         ],
     ]

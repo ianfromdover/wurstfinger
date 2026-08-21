@@ -40,6 +40,8 @@ struct TextInputMiddleware: ActionMiddleware {
         switch action {
         case let .commitText(text):
             target.insertText(text)
+        case .autocomplete:
+            target.insertText("auto")
         case .deleteBackward:
             target.deleteBackward()
         case .space:

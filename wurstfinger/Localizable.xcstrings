@@ -2271,6 +2271,9 @@
         }
       }
     },
+    "Autocomplete" : {
+
+    },
     "Both conditions must be true:" : {
 
     },
@@ -6027,6 +6030,9 @@
           }
         }
       }
+    },
+    "Emoji" : {
+
     },
     "Enable %@" : {
       "comment" : "Accessibility label: enable a language; %@ is the language name",

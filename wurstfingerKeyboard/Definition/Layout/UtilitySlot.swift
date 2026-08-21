@@ -14,4 +14,8 @@ enum UtilitySlot {
     static let `return` = "return"
     static let space = "space"
     static let symbols = "symbols"
+    /// Clipboard key: Copy (swipeUp) / Cut (tap) / Paste (swipeDown)
+    static let clipboard = "clipboard"
+    /// Autocomplete key: tap types "auto" (hardcoded MVP)
+    static let autocomplete = "autocomplete"
 }

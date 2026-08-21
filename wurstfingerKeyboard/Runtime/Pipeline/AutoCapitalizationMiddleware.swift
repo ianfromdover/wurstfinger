@@ -41,7 +41,7 @@ struct AutoCapitalizationMiddleware: ActionMiddleware {
     static func affectsCapitalization(_ action: KeyAction) -> Bool {
         switch action {
         case .commitText, .space, .newline, .deleteBackward, .deleteForward,
-             .compose, .cycleAccents, .paste, .cut, .cutAll:
+             .compose, .cycleAccents, .paste, .cut, .cutAll, .autocomplete:
             true
         case .moveCursor, .switchMode, .capitalizeWord, .advanceToNextInputMode,
              .dismissKeyboard, .copy, .none, .switchToNextLanguage:

@@ -128,7 +128,7 @@ struct StandardArrangementsTests {
         row.map(\.keyId).filter { !StandardArrangements.leadingUtilityKeys.contains($0) }
     }
 
-    @Test(arguments: [StandardArrangements.grid3x3, StandardArrangements.numeric3x3])
+    @Test(arguments: [StandardArrangements.grid3x3, StandardArrangements.numeric4x5])
     func utilityLeftKeepsNonUtilityKeyOrder(_ arrangements: [ArrangementContext: GridArrangement]) throws {
         // The "Utility Keys on Left" variants must not mirror the letter grid:
         // per row, everything except the utility column keeps its order.
@@ -145,7 +145,7 @@ struct StandardArrangementsTests {
         }
     }
 
-    @Test(arguments: [StandardArrangements.grid3x3, StandardArrangements.numeric3x3])
+    @Test(arguments: [StandardArrangements.grid3x3, StandardArrangements.numeric4x5])
     func utilityLeftMovesUtilityKeysToLeadingEdge(_ arrangements: [ArrangementContext: GridArrangement]) throws {
         // In the utility-left variants every relocated utility key sits at the
         // start of its row, before all letter/digit keys.

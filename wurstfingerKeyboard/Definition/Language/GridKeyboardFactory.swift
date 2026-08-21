@@ -14,38 +14,20 @@ enum GridKeyboardFactory {
     /// Creates a complete keyboard definition from language-specific parameters.
     ///
     /// - Parameters:
-    ///   - id: Unique keyboard identifier (e.g. "de_messagease")
-    ///   - title: Display name (e.g. "Deutsch MessagEase")
-    ///   - localeIdentifier: Locale string for uppercasing (e.g. "de_DE")
-    ///   - centerCharacters: 3x3 grid of center tap characters
-    ///   - directionalOverrides: Per-slot overrides that replace CommonKeys defaults
+    ///   - id: Unique keyboard identifier (e.g. "en_US")
+    ///   - title: Display name (e.g. "English")
+    ///   - localeIdentifier: Locale string for uppercasing (e.g. "en_US")
+    ///   - centerCharacters: 3×4 grid of center tap characters
+    ///   - directionalOverrides: Per-slot overrides that replace CommonKeys defaults.
+    ///     Only `.swipeUp` and `.swipeDown` are meaningful (`.twoWayVertical` restriction).
     ///   - returnOverrides: Per-slot return-swipe outputs that replace the
-    ///     auto-generated uppercase return action (e.g. Hebrew final forms:
-    ///     a return swipe on כ produces ך). Each entry must target a gesture
-    ///     that already has a binding on that slot.
-    ///   - circularOverrides: Per-slot output of the circle gesture. This is
-    ///     the reference layout's "center return": uppercasing the center
-    ///     character (the runtime's generic fallback) covers it on cased
-    ///     scripts, but a caseless script needs its own glyph — Thai ม → ฒ,
-    ///     kana つ → っ.
-    ///   - composeRuleOverrides: Language-specific compose rules merged over the
-    ///     global base rules at runtime (override wins for the same trigger +
-    ///     base character). Defaults to nil (global rules only).
+    ///     auto-generated uppercase return action.
+    ///   - circularOverrides: Per-slot output of the circle gesture.
+    ///   - composeRuleOverrides: Language-specific compose rules.
     ///   - supportsCapitalization: Whether the script distinguishes letter case.
-    ///     Caseless scripts (Hebrew) pass `false`: the layout then has no
-    ///     shifted/capsLock modes, no shift binding on the midRight key, and
-    ///     auto-capitalization is disabled in the definition settings.
-    ///   - numericBackToAlphaLabel: Label shown on the symbols key in numeric
-    ///     mode that switches back to the main (alphabetic) layer. Defaults to
-    ///     the Latin "abc"; non-Latin layouts (Hebrew, Russian, …) should
-    ///     supply a script-appropriate label.
-    ///   - numericDigits: Digit set (indexed by value 0–9) used in the numeric
-    ///     layer. Defaults to Western ASCII digits; Arabic, Persian, and Urdu
-    ///     layouts should pass their script-specific digit set.
-    ///   - inputMethod: Which input method is applied to committed characters.
-    ///     Defaults to `.direct`; Vietnamese layouts should pass `.telex` so
-    ///     that `SequentialCompositionMiddleware` activates for this keyboard
-    ///     at runtime.
+    ///   - numericBackToAlphaLabel: Label for numeric back-to-alpha key.
+    ///   - numericDigits: Digit set (indexed by value 0–9).
+    ///   - inputMethod: Input method (.direct, .telex, .hangul).
     static func layout(
         id: String,
         title: String,
@@ -62,29 +44,23 @@ enum GridKeyboardFactory {
         combineRuleSet: ComposeRuleSet? = nil
     ) -> KeyboardDefinition {
         precondition(
-            centerCharacters.count == 3 && centerCharacters.allSatisfy { $0.count == 3 },
-            "centerCharacters must be a 3×3 matrix"
+            centerCharacters.count == 3 && centerCharacters.allSatisfy { $0.count == 4 },
+            "centerCharacters must be a 3×4 matrix"
         )
 
         let locale = Locale(identifier: localeIdentifier)
         let arrangements = StandardArrangements.grid3x3
 
-        // 1. Build 9 letter keys from center characters + shared defaults + overrides
+        // 1. Build 12 letter keys from center characters + shared defaults + overrides
         var letterKeys: [String: KeyConfig] = [:]
         for (rowIdx, row) in centerCharacters.enumerated() {
             for (colIdx, char) in row.enumerated() {
-                let slotId = GridSlot.allSlots[rowIdx][colIdx]
+                let slotId = GridSlot.letterSlots[rowIdx][colIdx]
 
                 // Start with shared defaults for this slot
                 var bindings = CommonKeys.defaultSlotBindings[slotId] ?? [:]
 
                 // Apply language-specific overrides (replace default binding for that gesture).
-                // Letters get an auto-generated uppercase return action — but only where
-                // uppercasing actually changes the letter. On a caseless script it is the
-                // identity, and a return action that repeats its own swipe is a silent
-                // no-op hiding a missing `returnOverrides` entry: without a return action
-                // the resolver falls through to the primary binding and commits the same
-                // glyph anyway.
                 if let overrides = directionalOverrides[slotId] {
                     for (gesture, text) in overrides {
                         let isLetter = text.unicodeScalars.contains { CharacterSet.letters.contains($0) }
@@ -108,9 +84,7 @@ enum GridKeyboardFactory {
                     category: nil, returnAction: nil, accessibilityLabel: nil
                 )
 
-                // Apply explicit return-swipe outputs (replace the auto-generated
-                // uppercase return action). Needed for caseless scripts where
-                // uppercasing is the identity, e.g. Hebrew final forms (כ → ך).
+                // Apply explicit return-swipe outputs
                 if let returns = returnOverrides[slotId] {
                     for (gesture, text) in returns {
                         guard gesture.isSwipe else {
@@ -131,11 +105,7 @@ enum GridKeyboardFactory {
                     }
                 }
 
-                // Circle gesture. `handleCircular` falls back to the uppercased
-                // center character, which is the identity on a caseless script,
-                // so a distinct circle output has to be declared here. Both
-                // directions get the same binding — a thumb circle rarely comes
-                // out the way it was intended (same reasoning as `CommonKeys.cutAll`).
+                // Circle gesture
                 if let text = circularOverrides[slotId] {
                     let circle = KeyBinding(
                         label: text, action: .commitText(text),
@@ -146,26 +116,22 @@ enum GridKeyboardFactory {
                 }
 
                 letterKeys[slotId] = KeyConfig(
-                    id: slotId, bindings: bindings, swipeMode: .eightWay,
+                    id: slotId, bindings: bindings, swipeMode: .twoWayVertical,
                     slideType: .none, style: .primary, tapCycleActions: nil
                 )
             }
         }
 
-        // 2. Merge utility keys — the slot-id sets must be disjoint or the
-        // merge would silently swallow a utility key (same invariant as
-        // `NumericLayouts.buildMode`).
+        // 2. Merge utility keys
         precondition(
             Set(letterKeys.keys).isDisjoint(with: CommonKeys.allUtilityKeys.keys),
             "letter and utility key IDs must not overlap"
         )
         var allKeys = letterKeys.merging(CommonKeys.allUtilityKeys) { letter, _ in letter }
-        // Bind the space-bar hold-for-zero to this layout's own digit set so
-        // non-Latin layouts type their native zero (e.g. Arabic ٠) instead of
-        // ASCII "0". `.first ?? "0"` avoids an index crash on a short digit set.
+        // Bind the space-bar hold-for-zero to this layout's own digit set
         allKeys[UtilitySlot.space] = CommonKeys.spacebar(zeroDigit: numericDigits.first ?? "0")
 
-        // 3. Build base mode with all keys (includes shift-down on midRight)
+        // 3. Build base mode
         let baseMode = KeyboardMode(
             name: ModeNames.main,
             keys: allKeys,
@@ -183,12 +149,7 @@ enum GridKeyboardFactory {
             // Generate the shifted base once and derive both shifted + caps lock.
             let shiftedBase = baseMode.generateShifted(locale: locale)
 
-            // 4. Shifted — shift-up points directly to capsLock (label stays ⇧).
-            // The VoiceOver name stays "Shift" too, although this step enters
-            // caps lock: it is one affordance progressing through its states,
-            // exactly like the visual ⇧ it mirrors, and announcing the middle
-            // step as "Caps Lock" would promise a mode the first activation
-            // does not enter. Deliberate, not an oversight.
+            // 4. Shifted — shift-up on r2c0 points to capsLock.
             modes[ModeNames.shifted] = shiftedBase
                 .with(autoTransitions: [.letter: ModeNames.main])
                 .replacingShiftUpBinding(
@@ -196,34 +157,25 @@ enum GridKeyboardFactory {
                     accessibilityLabel: String(localized: "Shift")
                 )
 
-            // 5. Caps lock — shift-up is no-op (stays in capsLock), label shows ⇪.
-            // Unnamed on purpose: a named binding becomes a VoiceOver rotor
-            // action, and this one would lead back to the mode it was invoked
-            // from. The ⇩ below is the labelled way out.
+            // 5. Caps lock — shift-up on r2c0 cycles back to main.
             modes[ModeNames.capsLock] = shiftedBase
                 .with(name: ModeNames.capsLock)
                 .replacingShiftUpBinding(
-                    label: "⇪", action: .switchMode(ModeNames.capsLock),
+                    label: "⇪", action: .switchMode(ModeNames.main),
                     accessibilityLabel: nil
                 )
 
-            // 6. Main mode — remove shift-down hint from midRight (only shown in shifted/capsLock).
+            // 6. Main mode — no binding removal needed (r2c0.swipeDown is a letter,
+            //    not a back-to-main hint; that was unique to the old midRight layout).
             modes[ModeNames.main] = baseMode
-                .removingBinding(keyId: GridSlot.midRight, gesture: .swipeDown)
         } else {
-            // Caseless script: no shifted/capsLock modes. Strip only the
-            // auto-generated shift affordance from midRight (the ⇧ shift-up
-            // binding and the ⇩ back-to-main hint from CommonKeys); a language
-            // letter that a directional override placed on those gestures
-            // (e.g. Hindi ट/।, Urdu ڑ/ڈ) must survive.
+            // Caseless script: remove the auto-generated shift affordance from r2c0
+            // while keeping any language-specific letter that a directional override
+            // placed on the swipe-up gesture.
             modes[ModeNames.main] = baseMode
                 .removingBinding(
-                    keyId: GridSlot.midRight, gesture: .swipeUp,
+                    keyId: GridSlot.r2c0, gesture: .swipeUp,
                     ifAction: .switchMode(ModeNames.shifted)
-                )
-                .removingBinding(
-                    keyId: GridSlot.midRight, gesture: .swipeDown,
-                    ifAction: .switchMode(ModeNames.main)
                 )
         }
 
@@ -247,18 +199,6 @@ enum GridKeyboardFactory {
 
     /// VoiceOver name a directional override inherits from the shared binding it
     /// displaces, or nil when it must not inherit one.
-    ///
-    /// `CommonKeys.defaultSlotBindings` names `, . ?` after their *function*, not
-    /// their glyph, so a layout that puts its own script's mark on the same
-    /// gesture is still the comma (Arabic `،`), the full stop (Japanese `。`) or
-    /// the question mark (Arabic `؟`) — and dropping the name there would leave
-    /// exactly the RTL and CJK users the labelling was for with an unnamed key.
-    /// Two guards keep the inheritance honest:
-    ///
-    /// - a letter never inherits: "Comma" would be a lie on Japanese `ね`, and
-    ///   letters are deliberately unnamed (see `CommonKeys.defaultSlotBindings`);
-    /// - only a text-committing default hands its name down, so Hindi's danda on
-    ///   the midRight `⇩` gesture does not inherit the shift affordance's name.
     private static func inheritedAccessibilityName(
         replacing displaced: KeyBinding?,
         isLetter: Bool

@@ -1,14 +1,3 @@
-//
-//  LanguageDefinitions+MessagEase.swift
-//  Wurstfinger
-//
-//  Keyboard layouts ported 1:1 from the decompiled MessagEase reference,
-//  kept out of the primary LanguageDefinitions file to stay within SwiftLint's
-//  file_length / type_body_length limits.
-//
-
-import Foundation
-
 // MARK: - Additional MessagEase Layouts
 
 /// Layouts ported 1:1 from the decompiled MessagEase reference. Kept in a
@@ -29,24 +18,29 @@ extension LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["с", "и", "т"],
-                ["в", "о", "а"],
-                ["е", "р", "н"],
+                ["с", "и", "т", ""],
+                ["в", "о", "а", ""],
+                ["е", "р", "н", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeDown: "ц", .swipeDownRight: "п"],
-                GridSlot.topCenter: [.swipeUp: "й", .swipeDown: "к"],
-                GridSlot.topRight: [.swipeDownLeft: "ь"],
-                GridSlot.midLeft: [.swipeUp: "б", .swipeDown: "ґ", .swipeRight: "і"],
-                GridSlot.center: [
-                    .swipeUpLeft: "ч", .swipeUp: "м", .swipeUpRight: "х",
-                    .swipeRight: "г", .swipeDownRight: "ш", .swipeDown: "я",
-                    .swipeDownLeft: "щ", .swipeLeft: "ж",
+                        directionalOverrides: [
+                GridSlot.r0c0: [.swipeDown: "ц"],
+                GridSlot.r0c1: [
+                    .swipeUp: "й",
+                    .swipeDown: "к",
                 ],
-                GridSlot.midRight: [.swipeLeft: "л"],
-                GridSlot.bottomLeft: [.swipeUp: "ї", .swipeRight: "є", .swipeUpRight: "д"],
-                GridSlot.bottomCenter: [.swipeUp: "у", .swipeRight: "з", .swipeLeft: "ю"],
-                GridSlot.bottomRight: [.swipeUpLeft: "ф"],
+                GridSlot.r1c0: [
+                    .swipeUp: "б",
+                    .swipeDown: "ґ",
+                ],
+                GridSlot.r1c1: [
+                    .swipeUp: "м",
+                    .swipeDown: "я",
+                ],
+                GridSlot.r2c0: [.swipeUp: "ї"],
+                GridSlot.r2c1: [.swipeUp: "у"],
+                GridSlot.r0c3: [.swipeUp: "п"],
+                GridSlot.r1c3: [.swipeUp: "щ"],
+                GridSlot.r2c3: [.swipeUp: "є"],
             ],
             numericBackToAlphaLabel: "абв"
         )
@@ -64,28 +58,24 @@ extension LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["α", "ν", "ι"],
-                ["η", "ο", "ρ"],
-                ["τ", "ε", "σ"],
+                ["α", "ν", "ι", ""],
+                ["η", "ο", "ρ", ""],
+                ["τ", "ε", "σ", ""],
             ],
             // MessagEase's generic Latin accent ring (ô â ä í î ç ø é ü) is
             // dropped here: it is noise on a Greek keyboard and would override
             // the default punctuation/symbol swipes. Greek tonos/dialytika
             // belong in compose rules, not as primary swipes.
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeDownRight: "ω"],
-                GridSlot.topCenter: [.swipeDown: "λ"],
-                GridSlot.topRight: [.swipeDownLeft: "χ"],
-                GridSlot.midLeft: [.swipeRight: "κ"],
-                GridSlot.center: [
-                    .swipeUpLeft: "θ", .swipeUp: "υ", .swipeUpRight: "π",
-                    .swipeRight: "β", .swipeDownRight: "ς", .swipeDown: "δ",
-                    .swipeDownLeft: "γ", .swipeLeft: "ξ",
+                        directionalOverrides: [
+                GridSlot.r0c1: [.swipeDown: "λ"],
+                GridSlot.r1c1: [
+                    .swipeUp: "υ",
+                    .swipeDown: "δ",
                 ],
-                GridSlot.midRight: [.swipeLeft: "μ"],
-                GridSlot.bottomLeft: [.swipeUpRight: "ψ"],
-                GridSlot.bottomCenter: [.swipeUp: "ω", .swipeRight: "ζ"],
-                GridSlot.bottomRight: [.swipeUpLeft: "φ"],
+                GridSlot.r2c1: [.swipeUp: "ω"],
+                GridSlot.r0c3: [.swipeUp: "ω"],
+                GridSlot.r1c3: [.swipeUp: "ξ"],
+                GridSlot.r2c3: [.swipeUp: "φ"],
             ],
             numericBackToAlphaLabel: "αβγ"
         )
@@ -103,28 +93,29 @@ extension LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["a", "n", "i"],
-                ["d", "o", "r"],
-                ["t", "e", "s"],
+                ["a", "n", "i", ""],
+                ["d", "o", "r", ""],
+                ["t", "e", "s", ""],
             ],
-            directionalOverrides: [
-                // Portuguese keeps its own accents (â ã õ ô á í ó ú ç ê é);
-                // MessagEase's foreign ring extras — ñ (Spanish) and ü
-                // (dropped from Portuguese in the 1990 orthographic reform) —
-                // are removed.
-                GridSlot.topLeft: [.swipeUp: "ô", .swipeUpRight: "â", .swipeLeft: "ã", .swipeDown: "á", .swipeDownRight: "v"],
-                GridSlot.topCenter: [.swipeDown: "l"],
-                GridSlot.topRight: [.swipeUpLeft: "í", .swipeRight: "õ", .swipeDownLeft: "x"],
-                GridSlot.midLeft: [.swipeRight: "k", .swipeDown: "ç"],
-                GridSlot.center: [
-                    .swipeUpLeft: "q", .swipeUp: "u", .swipeUpRight: "p",
-                    .swipeRight: "b", .swipeDownRight: "j", .swipeDown: "h",
-                    .swipeDownLeft: "g", .swipeLeft: "c",
+                        directionalOverrides: [
+                GridSlot.r0c0: [
+                    .swipeUp: "ô",
+                    .swipeDown: "á",
                 ],
-                GridSlot.midRight: [.swipeLeft: "m"],
-                GridSlot.bottomLeft: [.swipeUp: "ú", .swipeUpRight: "y", .swipeRight: "ê", .swipeDown: "ó"],
-                GridSlot.bottomCenter: [.swipeUp: "w", .swipeLeft: "é", .swipeRight: "z"],
-                GridSlot.bottomRight: [.swipeUpLeft: "f"],
+                GridSlot.r0c1: [.swipeDown: "l"],
+                GridSlot.r1c0: [.swipeDown: "ç"],
+                GridSlot.r1c1: [
+                    .swipeUp: "u",
+                    .swipeDown: "h",
+                ],
+                GridSlot.r2c0: [
+                    .swipeUp: "ú",
+                    .swipeDown: "ó",
+                ],
+                GridSlot.r2c1: [.swipeUp: "w"],
+                GridSlot.r0c3: [.swipeUp: "â"],
+                GridSlot.r1c3: [.swipeUp: "m"],
+                GridSlot.r2c3: [.swipeUp: "z"],
             ]
         )
     }
@@ -141,9 +132,9 @@ extension LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["ه", "ب", "م"],
-                ["ي", "ا", "ر"],
-                ["و", "ن", "د"],
+                ["ه", "ب", "م", ""],
+                ["ي", "ا", "ر", ""],
+                ["و", "ن", "د", ""],
             ],
             directionalOverrides: ScriptPunctuation.arabicScript(adding: [
                 GridSlot.topLeft: [.swipeRight: "ـ", .swipeDown: "ة", .swipeDownRight: "ق"],
@@ -194,9 +185,9 @@ extension LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["ه", "ب", "م"],
-                ["ی", "ا", "ر"],
-                ["و", "ن", "د"],
+                ["ه", "ب", "م", ""],
+                ["ی", "ا", "ر", ""],
+                ["و", "ن", "د", ""],
             ],
             directionalOverrides: ScriptPunctuation.arabicScript(adding: [
                 GridSlot.topLeft: [.swipeRight: "ـ", .swipeDown: "ۀ", .swipeDownRight: "ق"],
@@ -262,9 +253,9 @@ extension LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["ه", "ب", "م"],
-                ["ی", "ا", "ر"],
-                ["و", "ن", "د"],
+                ["ه", "ب", "م", ""],
+                ["ی", "ا", "ر", ""],
+                ["و", "ن", "د", ""],
             ],
             directionalOverrides: ScriptPunctuation.arabicScript(adding: [
                 GridSlot.topLeft: [
@@ -322,89 +313,80 @@ extension LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["า", "น", "ั"],
-                ["ก", "อ", "ร"],
-                ["ม", "เ", "ง"],
+                ["า", "น", "ั", ""],
+                ["ก", "อ", "ร", ""],
+                ["ม", "เ", "ง", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [
-                    .swipeUp: "ุ", .swipeUpRight: "ิ", .swipeLeft: "ฝ",
-                    .swipeDown: "ู", .swipeDownLeft: "ฟ", .swipeDownRight: "ี",
+                        directionalOverrides: [
+                GridSlot.r0c0: [
+                    .swipeUp: "ุ",
+                    .swipeDown: "ู",
                 ],
-                GridSlot.topCenter: [
-                    .swipeUp: "ณ", .swipeUpLeft: "็", .swipeUpRight: "์",
-                    .swipeDown: "ล", .swipeDownRight: "ข",
+                GridSlot.r0c1: [
+                    .swipeUp: "ณ",
+                    .swipeDown: "ล",
                 ],
-                GridSlot.topRight: [
-                    .swipeUpLeft: "ฮ", .swipeRight: "ฐ", .swipeDown: "ะ",
-                    .swipeDownLeft: "ๆ", .swipeDownRight: "ภ",
+                GridSlot.r0c2: [.swipeDown: "ะ"],
+                GridSlot.r1c0: [
+                    .swipeUp: "ื",
+                    .swipeDown: "ใ",
                 ],
-                GridSlot.midLeft: [
-                    .swipeUp: "ื", .swipeUpLeft: "ึ", .swipeUpRight: "โ",
-                    .swipeRight: "ค", .swipeDown: "ใ", .swipeDownLeft: "ฤ",
-                    .swipeDownRight: "ไ",
+                GridSlot.r1c1: [
+                    .swipeUp: "้",
+                    .swipeDown: "ด",
                 ],
-                GridSlot.center: [
-                    .swipeUp: "้", .swipeUpLeft: "่", .swipeUpRight: "ป",
-                    .swipeLeft: "ช", .swipeRight: "บ", .swipeDown: "ด",
-                    .swipeDownLeft: "ห", .swipeDownRight: "จ",
+                GridSlot.r2c0: [
+                    .swipeUp: "ำ",
+                    .swipeDown: "๋",
                 ],
-                GridSlot.midRight: [
-                    .swipeUpLeft: "ผ", .swipeUpRight: "ถ", .swipeLeft: "ท",
-                    .swipeDownLeft: "พ", .swipeDownRight: "ธ",
-                ],
-                GridSlot.bottomLeft: [
-                    .swipeUp: "ำ", .swipeUpLeft: "ญ", .swipeUpRight: "ย",
-                    .swipeLeft: "๊", .swipeDown: "๋",
-                ],
-                GridSlot.bottomCenter: [.swipeUp: "ว", .swipeLeft: "แ", .swipeRight: "ต"],
-                GridSlot.bottomRight: [
-                    .swipeUp: "ฉ", .swipeUpLeft: "ส", .swipeUpRight: "ซ",
-                    .swipeRight: "ศ", .swipeDownLeft: "ษ",
-                ],
+                GridSlot.r2c1: [.swipeUp: "ว"],
+                GridSlot.r2c2: [.swipeUp: "ฉ"],
+                GridSlot.r0c3: [.swipeUp: "็"],
+                GridSlot.r1c3: [.swipeUp: "ฤ"],
+                GridSlot.r2c3: [.swipeUp: "ญ"],
             ],
             returnOverrides: [
-                GridSlot.topLeft: [
+                GridSlot.r0c0: [
                     .swipeUp: "ู", .swipeUpRight: "ี", .swipeLeft: "ฺ",
                     .swipeDown: "ุ", .swipeDownLeft: "พ", .swipeDownRight: "ิ",
                 ],
-                GridSlot.topCenter: [
+                GridSlot.r0c1: [
                     .swipeUp: "โ", .swipeUpLeft: "ใ", .swipeUpRight: "ไ",
                     .swipeDown: "ฦ", .swipeDownRight: "ญ",
                 ],
-                GridSlot.topRight: [
+                GridSlot.r0c2: [
                     .swipeUpLeft: "ฆ", .swipeRight: "ฃ", .swipeDown: "ข",
                     .swipeDownLeft: "ฯ", .swipeDownRight: "ถ",
                 ],
-                GridSlot.midLeft: [
+                GridSlot.r1c0: [
                     .swipeUp: "ึ", .swipeUpLeft: "ื", .swipeUpRight: "จ",
                     .swipeRight: "ข", .swipeDown: "ๅ", .swipeDownLeft: "ฦ",
                     .swipeDownRight: "ฤ",
                 ],
-                GridSlot.center: [
+                GridSlot.r1c1: [
                     .swipeUp: "๋", .swipeUpLeft: "๊", .swipeUpRight: "ผ",
                     .swipeLeft: "ฉ", .swipeRight: "ษ", .swipeDown: "ฎ",
                     .swipeDownLeft: "ฮ", .swipeDownRight: "ช",
                 ],
                 // ฿ rides the ท key's return swipe, matching the reference.
-                GridSlot.midRight: [
+                GridSlot.r1c2: [
                     .swipeUpLeft: "ฝ", .swipeUpRight: "ภ", .swipeLeft: "฿",
                     .swipeDownLeft: "ฟ", .swipeDownRight: "ณ",
                 ],
-                GridSlot.bottomLeft: [
+                GridSlot.r2c0: [
                     .swipeUp: "์", .swipeUpLeft: "แ", .swipeUpRight: "๎",
                     .swipeLeft: "็",
                 ],
-                GridSlot.bottomCenter: [.swipeUp: "ๆ", .swipeRight: "ํ"],
-                GridSlot.bottomRight: [.swipeUp: "ฌ", .swipeRight: "ซ", .swipeDownLeft: "ำ"],
+                GridSlot.r2c1: [.swipeUp: "ๆ", .swipeRight: "ํ"],
+                GridSlot.r2c2: [.swipeUp: "ฌ", .swipeRight: "ซ", .swipeDownLeft: "ำ"],
             ],
             // The reference's center returns: circling a key types a second
             // consonant. Four of them (ฬ ฒ ฑ ฏ) have no other position in the
             // layout, so without this they cannot be typed at all.
             circularOverrides: [
-                GridSlot.topLeft: "ฬ", GridSlot.topCenter: "ณ", GridSlot.topRight: "ฎ",
-                GridSlot.midLeft: "ธ", GridSlot.center: "ฮ", GridSlot.midRight: "ฐ",
-                GridSlot.bottomLeft: "ฒ", GridSlot.bottomCenter: "ฑ", GridSlot.bottomRight: "ฏ",
+                GridSlot.r0c0: "ฬ", GridSlot.r0c1: "ณ", GridSlot.r0c2: "ฎ",
+                GridSlot.r1c0: "ธ", GridSlot.r1c1: "ฮ", GridSlot.r1c2: "ฐ",
+                GridSlot.r2c0: "ฒ", GridSlot.r2c1: "ฑ", GridSlot.r2c2: "ฏ",
             ],
             supportsCapitalization: false,
             numericBackToAlphaLabel: "กขค",
@@ -424,48 +406,37 @@ extension LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["म", "न", "ल"],
-                ["ह", "क", "र"],
-                ["त", "प", "स"],
+                ["म", "न", "ल", ""],
+                ["ह", "क", "र", ""],
+                ["त", "प", "स", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [
-                    .swipeUp: "ः", .swipeUpRight: "ँ", .swipeLeft: "ृ",
-                    .swipeRight: "अ", .swipeDown: "ओ", .swipeDownLeft: "ञ",
-                    .swipeDownRight: "द",
+                        directionalOverrides: [
+                GridSlot.r0c0: [
+                    .swipeUp: "ः",
+                    .swipeDown: "ओ",
                 ],
-                GridSlot.topCenter: [
-                    .swipeUp: "आ", .swipeUpLeft: "ऊ", .swipeUpRight: "उ",
-                    .swipeLeft: "ौ", .swipeRight: "ो", .swipeDown: "व",
-                    .swipeDownLeft: "ई", .swipeDownRight: "इ",
+                GridSlot.r0c1: [
+                    .swipeUp: "आ",
+                    .swipeDown: "व",
                 ],
-                GridSlot.topRight: [.swipeRight: "़", .swipeDownLeft: "ज", .swipeDownRight: "ख"],
-                GridSlot.midLeft: [
-                    .swipeUp: "ऑ", .swipeUpLeft: "ॅ", .swipeUpRight: "थ",
-                    .swipeRight: "ब", .swipeDown: "झ", .swipeDownLeft: "ढ",
-                    .swipeDownRight: "श",
+                GridSlot.r1c0: [
+                    .swipeUp: "ऑ",
+                    .swipeDown: "झ",
                 ],
-                GridSlot.center: [
-                    .swipeUp: "ा", .swipeUpLeft: "ू", .swipeUpRight: "ु",
-                    .swipeLeft: "ी", .swipeRight: "ि", .swipeDown: "्",
-                    .swipeDownLeft: "ै", .swipeDownRight: "े",
+                GridSlot.r1c1: [
+                    .swipeUp: "ा",
+                    .swipeDown: "्",
                 ],
-                GridSlot.midRight: [
-                    .swipeUp: "ट", .swipeUpLeft: "छ", .swipeUpRight: "ड",
-                    .swipeLeft: "फ", .swipeDown: "।", .swipeDownRight: "ठ",
+                GridSlot.r1c2: [
+                    .swipeUp: "ट",
+                    .swipeDown: "।",
                 ],
-                GridSlot.bottomLeft: [
-                    .swipeUp: "ऐ", .swipeUpLeft: "ऋ", .swipeUpRight: "ं",
-                    .swipeLeft: "ण",
-                ],
-                GridSlot.bottomCenter: [
-                    .swipeUp: "ए", .swipeUpRight: "औ", .swipeLeft: "₹",
-                    .swipeRight: "ग", .swipeDownRight: "ष",
-                ],
-                GridSlot.bottomRight: [
-                    .swipeUp: "च", .swipeUpLeft: "य", .swipeUpRight: "भ",
-                    .swipeLeft: "ध", .swipeRight: "घ", .swipeDownLeft: "ॉ",
-                ],
+                GridSlot.r2c0: [.swipeUp: "ऐ"],
+                GridSlot.r2c1: [.swipeUp: "ए"],
+                GridSlot.r2c2: [.swipeUp: "च"],
+                GridSlot.r0c3: [.swipeUp: "अ"],
+                GridSlot.r1c3: [.swipeUp: "ढ"],
+                GridSlot.r2c3: [.swipeUp: "ॉ"],
             ],
             supportsCapitalization: false,
             numericBackToAlphaLabel: "कखग",
@@ -506,9 +477,9 @@ extension LanguageDefinitions {
     }
 
     private static let hiraganaCenterCharacters: [[String]] = [
-        ["く", "つ", "い"],
-        ["ふ", "る", "ら"],
-        ["と", "ん", "す"],
+        ["く", "つ", "い", ""],
+        ["ふ", "る", "ら", ""],
+        ["と", "ん", "す", ""],
     ]
 
     private static let hiraganaDirectionalOverrides: [String: [GestureType: String]] = [
@@ -683,31 +654,27 @@ extension LanguageDefinitions {
             title: meta.title,
             localeIdentifier: meta.localeIdentifier,
             centerCharacters: [
-                ["ㄷ", "ㄹ", "ㅈ"],
-                ["ㄱ", "ㅇ", "ㄴ"],
-                ["ㅁ", "ㅅ", "ㅎ"],
+                ["ㄷ", "ㄹ", "ㅈ", ""],
+                ["ㄱ", "ㅇ", "ㄴ", ""],
+                ["ㅁ", "ㅅ", "ㅎ", ""],
             ],
-            directionalOverrides: [
-                GridSlot.topLeft: [.swipeDownRight: "ㅌ"],
-                GridSlot.topCenter: [.swipeDown: "ㅛ"],
-                GridSlot.topRight: [.swipeDownLeft: "ㅊ"],
-                GridSlot.midLeft: [.swipeRight: "ㅕ"],
-                GridSlot.center: [
-                    .swipeUp: "ㅗ", .swipeUpLeft: "ㅔ", .swipeUpRight: "ㅡ",
-                    .swipeLeft: "ㅓ", .swipeRight: "ㅏ", .swipeDown: "ㅜ",
-                    .swipeDownLeft: "ㅐ", .swipeDownRight: "ㅣ",
+                        directionalOverrides: [
+                GridSlot.r0c1: [.swipeDown: "ㅛ"],
+                GridSlot.r1c1: [
+                    .swipeUp: "ㅗ",
+                    .swipeDown: "ㅜ",
                 ],
-                GridSlot.midRight: [.swipeLeft: "ㅑ"],
-                GridSlot.bottomLeft: [.swipeUpRight: "ㅂ"],
-                GridSlot.bottomCenter: [.swipeUp: "ㅠ", .swipeRight: "ㅋ"],
-                GridSlot.bottomRight: [.swipeUpLeft: "ㅍ"],
+                GridSlot.r2c1: [.swipeUp: "ㅠ"],
+                GridSlot.r0c3: [.swipeUp: "ㅊ"],
+                GridSlot.r1c3: [.swipeUp: "ㅓ"],
+                GridSlot.r2c3: [.swipeUp: "ㅂ"],
             ],
             returnOverrides: [
                 // Complex vowels are reached by a return swipe on the plain
                 // vowel (ㅐ→ㅒ, ㅔ→ㅖ), matching the MessagEase Korean layout.
                 // Tense consonants (ㄲㄸㅃㅆㅉ) are produced instead by repeating
                 // the base consonant, handled in HangulComposer.
-                GridSlot.center: [.swipeDownLeft: "ㅒ", .swipeUpLeft: "ㅖ"],
+                GridSlot.r1c1: [.swipeDownLeft: "ㅒ", .swipeUpLeft: "ㅖ"],
             ],
             supportsCapitalization: false,
             numericBackToAlphaLabel: "가나다",

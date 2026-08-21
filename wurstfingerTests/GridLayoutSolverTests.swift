@@ -92,8 +92,8 @@ struct GridLayoutSolverInvariantTests {
         for (context, arrangement) in StandardArrangements.grid3x3 {
             result.append(NamedArrangement(name: "grid3x3.\(context)", arrangement: arrangement))
         }
-        for (context, arrangement) in StandardArrangements.numeric3x3 {
-            result.append(NamedArrangement(name: "numeric3x3.\(context)", arrangement: arrangement))
+        for (context, arrangement) in StandardArrangements.numeric4x5 {
+            result.append(NamedArrangement(name: "numeric4x5.\(context)", arrangement: arrangement))
         }
         return result
     }()
