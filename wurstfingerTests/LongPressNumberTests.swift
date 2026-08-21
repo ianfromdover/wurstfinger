@@ -74,6 +74,8 @@ struct LongPressNumberPipelineTests {
     }
 
     @Test func longPressFollowsClassicNumpadType() {
+        // Classic numpad now uses the same fixed symbol layout as phone
+        // (symbols are tied to physical grid positions). Top-left is digit 1.
         let defaults = InMemoryUserDefaults()
         defaults.set(NumpadType.classic.rawValue, forKey: SettingsKey.numpadStyle.rawValue)
         let vm = KeyboardViewModel(userDefaults: defaults, shouldPersistSettings: false)
@@ -82,12 +84,13 @@ struct LongPressNumberPipelineTests {
         vm.loadDefinition(for: "de_DE")
 
         vm.handleGesture(.longPress, keyId: GridSlot.topLeft, isReturn: false)
-        #expect(target.events == [.insertText("7")])
+        #expect(target.events == [.insertText("1")])
     }
 
     @Test func longPressWorksInShiftedMode() {
         let (vm, target) = makeViewModel()
-        vm.handleGesture(.swipeUp, keyId: GridSlot.midRight, isReturn: false)
+        // Shift moved to r2c0 in the izumistudio layout (was midRight in old 3×3 layout).
+        vm.handleGesture(.swipeUp, keyId: GridSlot.r2c0, isReturn: false)
         #expect(vm.activeModeName == ModeNames.shifted)
         vm.handleGesture(.longPress, keyId: GridSlot.center, isReturn: false)
         #expect(target.events.contains(.insertText("5")))
