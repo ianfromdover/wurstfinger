@@ -36,7 +36,7 @@ struct DataDrivenKeyboardRootView: View {
     private var hideExtraSymbols = KeyRenderSettings.stock.hideExtraSymbols
 
     @AppStorage(SettingsKey.longPressNumbersEnabled.rawValue, store: SharedDefaults.store)
-    private var longPressNumbersEnabled = true
+    private var longPressNumbersEnabled = KeyRenderSettings.stock.longPressNumbersEnabled
 
     private var renderSettings: KeyRenderSettings {
         KeyRenderSettings(

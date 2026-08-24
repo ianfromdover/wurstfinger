@@ -189,7 +189,7 @@ enum KeyboardConstants {
         /// Deliberately above UIKit's 0.5s default: hesitating mid-word is
         /// common on a gesture keyboard, and an accidental digit is worse
         /// than a slightly slower intentional one (tuned on device).
-        static let duration: TimeInterval = 0.7
+        static let duration: TimeInterval = 0.22
 
         /// Maximum travel from touch-down before a pending long press is
         /// cancelled. Matches `UILongPressGestureRecognizer.allowableMovement`

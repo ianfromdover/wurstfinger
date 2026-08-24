@@ -19,7 +19,7 @@ struct KeyRenderSettings: Equatable {
     var hideLetters = false
     var hideStandardSymbols = false
     var hideExtraSymbols = false
-    var longPressNumbersEnabled = true
+    var longPressNumbersEnabled = false
 
     /// The values a key renders with when nothing is stored yet. Single source
     /// for those defaults: `DataDrivenKeyboardRootView` initializes its
