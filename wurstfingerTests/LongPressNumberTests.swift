@@ -65,11 +65,12 @@ struct LongPressNumberPipelineTests {
     }
 
     @Test func allNineMainSlotsTypeTheirPhoneLayoutDigit() {
-        // The 9 coordinate slots that carry digits (columns 1-3, rows 0-2).
+        // The 10 coordinate slots that carry digits (columns 1-3, rows 0-2, plus r2c0).
         let coordSlots: [(String, String)] = [
             (GridSlot.r0c1, "1"), (GridSlot.r0c2, "2"), (GridSlot.r0c3, "3"),
             (GridSlot.r1c1, "4"), (GridSlot.r1c2, "5"), (GridSlot.r1c3, "6"),
             (GridSlot.r2c1, "7"), (GridSlot.r2c2, "8"), (GridSlot.r2c3, "9"),
+            (GridSlot.r2c0, "0"),
         ]
         for (slot, expectedDigit) in coordSlots {
             let (vm, target) = makeViewModel()

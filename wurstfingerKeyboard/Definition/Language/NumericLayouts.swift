@@ -34,8 +34,8 @@ enum NumericLayouts {
 
     /// Fixed 4×5 numeric layer.
     ///
-    /// Row 0: symbols - 1 2 3
-    /// Row 1: symbols = 4 5 6
+    /// Row 0: symbols = 1 2 3
+    /// Row 1: symbols - 4 5 6
     /// Row 2: symbols . 7 8 9
     /// Row 3: abc  0  space space  return
     ///
@@ -49,13 +49,13 @@ enum NumericLayouts {
         var keys: [String: KeyConfig] = [:]
 
         // ── Row 0 ──────────────────────────────────────────────
-        keys["n0c0"] = verticalKey(id: "n0c0", tap: "-", swipeUp: "`", swipeDown: "_")
-        keys["n0c1"] = verticalKey(id: "n0c1", tap: d[1], swipeUp: "<", swipeDown: "!", category: .digit)
-        keys["n0c2"] = verticalKey(id: "n0c2", tap: d[2], swipeUp: ">", swipeDown: "@", category: .digit)
+        keys["n0c0"] = verticalKey(id: "n0c0", tap: "=", swipeUp: "`", swipeDown: "+")
+        keys["n0c1"] = verticalKey(id: "n0c1", tap: d[1], swipeUp: "•", swipeDown: "!", category: .digit)
+        keys["n0c2"] = verticalKey(id: "n0c2", tap: d[2], swipeUp: ";", swipeDown: "@", category: .digit)
         keys["n0c3"] = verticalKey(id: "n0c3", tap: d[3], swipeUp: "|", swipeDown: "#", category: .digit)
 
         // ── Row 1 ──────────────────────────────────────────────
-        keys["n1c0"] = verticalKey(id: "n1c0", tap: "=", swipeUp: "[", swipeDown: "+")
+        keys["n1c0"] = verticalKey(id: "n1c0", tap: "-", swipeUp: "[", swipeDown: "_")
         keys["n1c1"] = verticalKey(id: "n1c1", tap: d[4], swipeUp: "]", swipeDown: "$", category: .digit)
         keys["n1c2"] = verticalKey(id: "n1c2", tap: d[5], swipeUp: "(", swipeDown: "%", category: .digit)
         keys["n1c3"] = verticalKey(id: "n1c3", tap: d[6], swipeUp: ")", swipeDown: "^", category: .digit)
@@ -65,17 +65,17 @@ enum NumericLayouts {
             id: "n2c0",
             bindings: [
                 .tap: KeyBinding(label: ".", action: .commitText("."), category: nil, returnAction: nil, accessibilityLabel: String(localized: "Period")),
-                .swipeUp: KeyBinding(label: "⇧", action: .switchMode(ModeNames.shifted), category: .modifier, returnAction: nil, accessibilityLabel: String(localized: "Shift")),
-                .swipeDown: KeyBinding(label: "•", action: .commitText("•"), category: nil, returnAction: nil, accessibilityLabel: nil),
+                .swipeUp: KeyBinding(label: "{", action: .commitText("{"), category: nil, returnAction: nil, accessibilityLabel: nil),
+                .swipeDown: KeyBinding(label: "~", action: .commitText("~"), category: nil, returnAction: nil, accessibilityLabel: nil),
             ],
             swipeMode: .twoWayVertical,
             slideType: .none,
             style: .primary,
             tapCycleActions: nil
         )
-        keys["n2c1"] = verticalKey(id: "n2c1", tap: d[7], swipeUp: "{", swipeDown: "&", category: .digit)
-        keys["n2c2"] = verticalKey(id: "n2c2", tap: d[8], swipeUp: "}", swipeDown: "*", category: .digit)
-        keys["n2c3"] = verticalKey(id: "n2c3", tap: d[9], swipeUp: ";", swipeDown: "/", category: .digit)
+        keys["n2c1"] = verticalKey(id: "n2c1", tap: d[7], swipeUp: "}", swipeDown: "&", category: .digit)
+        keys["n2c2"] = verticalKey(id: "n2c2", tap: d[8], swipeUp: "<", swipeDown: "*", category: .digit)
+        keys["n2c3"] = verticalKey(id: "n2c3", tap: d[9], swipeUp: ">", swipeDown: "/", category: .digit)
 
         // ── Row 3 ──────────────────────────────────────────────
         // Back-to-alpha key (abc / emoji / globe)
@@ -112,7 +112,7 @@ enum NumericLayouts {
             (GridSlot.r0c1, 1), (GridSlot.r0c2, 2), (GridSlot.r0c3, 3),
             (GridSlot.r1c1, 4), (GridSlot.r1c2, 5), (GridSlot.r1c3, 6),
             (GridSlot.r2c1, 7), (GridSlot.r2c2, 8), (GridSlot.r2c3, 9),
-            (GridSlot.r3c1, 0),
+            (GridSlot.r2c0, 0), (GridSlot.r3c1, 0),
         ]
         for (slot, digitIndex) in digitAliases {
             keys[slot] = legacyDigitKey(id: slot, digit: d[digitIndex])
