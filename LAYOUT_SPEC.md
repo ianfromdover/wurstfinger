@@ -38,12 +38,12 @@ This document specifies the custom keyboard layout implemented for **Wurstfinger
 
 | Slot | Tap (Center) | Swipe Up (▲) | Swipe Down (▼) |
 | :--- | :---: | :---: | :---: |
-| **r0c0** | `l` | `v` | `w` |
-| **r0c1** | `d` | `q` | `b` |
-| **r0c2** | `i` | `-` | `x` |
+| **r0c0** | `l` | `-` | `w` |
+| **r0c1** | `d` | `/` | `b` |
+| **r0c2** | `i` | `!` | `x` |
 | **r0c3** | `o` | `?` | `g` |
-| **r1c0** | `n` | `!` | `f` |
-| **r1c1** | `t` | `/` | `k` |
+| **r1c0** | `n` | `v` | `f` |
+| **r1c1** | `t` | `q` | `k` |
 | **r1c2** | `h` | `:` | `u` |
 | **r1c3** | `c` | `y` | `p` |
 | **r2c0** | `s` | Shift Toggle (`⇧`) | `z` |
@@ -83,20 +83,20 @@ This document specifies the custom keyboard layout implemented for **Wurstfinger
 
 | Slot | Tap | Swipe Up (▲) | Swipe Down (▼) |
 | :--- | :---: | :---: | :---: |
-| **n0c0** | `~` | `*` | `/` |
+| **n0c0** | `-` | `` ` `` | `_` |
 | **n0c1** | `1` | `<` | `!` |
 | **n0c2** | `2` | `>` | `@` |
 | **n0c3** | `3` | `|` | `#` |
-| **n1c0** | `=` | `+` | `-` |
-| **n1c1** | `4` | `(` | `$` |
-| **n1c2** | `5` | `)` | `%` |
-| **n1c3** | `6` | `\` | `^` |
-| **n2c0** | `.` | `⇧` (Shift) | `⇥` (Tab) |
+| **n1c0** | `=` | `[` | `+` |
+| **n1c1** | `4` | `]` | `$` |
+| **n1c2** | `5` | `(` | `%` |
+| **n1c3** | `6` | `)` | `^` |
+| **n2c0** | `.` | `⇧` (Shift) | `•` (bullet) |
 | **n2c1** | `7` | `{` | `&` |
 | **n2c2** | `8` | `}` | `*` |
-| **n2c3** | `9` | `` ` `` | `(` |
+| **n2c3** | `9` | `;` | `/` |
 | **n3c0** | `ABC` (→ letters) | Emoji | Globe (next input) |
-| **n3c1** | `0` | `_` | `)` |
+| **n3c1** | `0` | `:` | `\` |
 | **n3c2–3** | Spacebar (spans 2 cols) | — | — |
 | **n3c4** | Return (↵) | — | Hide Keyboard |
 | **Utility col 4** | Clipboard / Autocomplete / Delete / Return | _same gestures as main layer_ | |
