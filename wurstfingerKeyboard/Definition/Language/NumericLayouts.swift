@@ -101,12 +101,24 @@ enum NumericLayouts {
         keys[UtilitySlot.return] = CommonKeys.return
         keys[UtilitySlot.space] = CommonKeys.spacebar(zeroDigit: d[0])
 
-        // ── Legacy slot aliases for GhostKeyResolver ────────────
-        // The resolver looks up the letter grid's slot ID in the numeric
-        // fallback mode. Since we use new numeric slot names (n0c1, n0c2, …),
-        // alias the old 3×3 slot names so long-press digit fallback still works.
-        // Tap-only aliases are sufficient: the resolver only looks for a
-        // `.digit` tap when the letter-key long press resolves.
+        // ── Coordinate slot aliases for GhostKeyResolver ────────
+        // The resolver looks up the letter grid's coordinate slot ID
+        // (e.g. "r0c1") in the numeric fallback mode. Since the numeric
+        // layer uses its own nXcY naming, alias each coordinate to its
+        // digit so long-press digit fallback works. The resolver only uses
+        // the tap when it has category == .digit, so non-digit slots
+        // (column 0 symbols, abc, space) are safely ignored.
+        let digitAliases: [(String, Int)] = [
+            (GridSlot.r0c1, 1), (GridSlot.r0c2, 2), (GridSlot.r0c3, 3),
+            (GridSlot.r1c1, 4), (GridSlot.r1c2, 5), (GridSlot.r1c3, 6),
+            (GridSlot.r2c1, 7), (GridSlot.r2c2, 8), (GridSlot.r2c3, 9),
+            (GridSlot.r3c1, 0),
+        ]
+        for (slot, digitIndex) in digitAliases {
+            keys[slot] = legacyDigitKey(id: slot, digit: d[digitIndex])
+        }
+
+        // Legacy 3×3 names kept for test compatibility.
         keys[GridSlot.topLeft] = legacyDigitKey(id: GridSlot.topLeft, digit: d[1])
         keys[GridSlot.topCenter] = legacyDigitKey(id: GridSlot.topCenter, digit: d[2])
         keys[GridSlot.topRight] = legacyDigitKey(id: GridSlot.topRight, digit: d[3])

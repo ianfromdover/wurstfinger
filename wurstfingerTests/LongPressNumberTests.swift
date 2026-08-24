@@ -58,18 +58,23 @@ struct LongPressBindingTests {
 struct LongPressNumberPipelineTests {
     @Test func longPressOnLetterKeyTypesDigit() {
         let (vm, target) = makeViewModel()
-        // Phone numpad (default): top-left slot carries "1".
-        let handled = vm.handleGesture(.longPress, keyId: GridSlot.topLeft, isReturn: false)
+        // Digit 1 lives on r0c1 (the d key) in the new Wurstfinger Duo layout.
+        let handled = vm.handleGesture(.longPress, keyId: GridSlot.r0c1, isReturn: false)
         #expect(handled)
         #expect(target.events == [.insertText("1")])
     }
 
     @Test func allNineMainSlotsTypeTheirPhoneLayoutDigit() {
-        let slots = GridSlot.allSlots.flatMap(\.self)
-        for (index, slot) in slots.enumerated() {
+        // The 9 coordinate slots that carry digits (columns 1-3, rows 0-2).
+        let coordSlots: [(String, String)] = [
+            (GridSlot.r0c1, "1"), (GridSlot.r0c2, "2"), (GridSlot.r0c3, "3"),
+            (GridSlot.r1c1, "4"), (GridSlot.r1c2, "5"), (GridSlot.r1c3, "6"),
+            (GridSlot.r2c1, "7"), (GridSlot.r2c2, "8"), (GridSlot.r2c3, "9"),
+        ]
+        for (slot, expectedDigit) in coordSlots {
             let (vm, target) = makeViewModel()
             vm.handleGesture(.longPress, keyId: slot, isReturn: false)
-            #expect(target.events == [.insertText("\(index + 1)")], "slot \(slot)")
+            #expect(target.events == [.insertText(expectedDigit)], "slot \(slot)")
         }
     }
 
